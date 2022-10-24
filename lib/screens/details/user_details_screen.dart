@@ -14,37 +14,71 @@ class UserDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              FontAwesomeIcons.chevronLeft,
-              size: 20,
+          leading: Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: COLOR_WHITE,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  FontAwesomeIcons.chevronLeft,
+                  size: 20,
+                  color: COLOR_BLACK,
+                ),
+              ),
             ),
           ),
         ),
         extendBodyBehindAppBar: true,
         body: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.width * 1.1,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.5,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(user.imageUrls[0]),
-                    fit: BoxFit.cover,
-
+            height: size.width * 1.1,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(user.imageUrls[0]),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15))),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(9.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: COLOR_WHITE,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.solidBookmark,
+                          size: 20,
+                          color: COLOR_BLACK.withOpacity(.4),
+                        ),
+                      ),
+                    ),
                   ),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(25),
-                      bottomRight: Radius.circular(25))),
+                ),
+              ],
             ),
           ),
         ),

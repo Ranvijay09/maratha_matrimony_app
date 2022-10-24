@@ -22,13 +22,7 @@ class _MyBottomNavBarState extends State<MyBottomNavBar> {
         right: kDefaultPadding * 2,
       ),
       height: 56,
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white,
-          ),
-        ],
-      ),
+      color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
