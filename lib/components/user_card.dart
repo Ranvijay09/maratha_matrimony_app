@@ -29,7 +29,7 @@ class UserCard extends StatelessWidget {
         left: 15,
         right: 15,
       ),
-      height: 300,
+      height: (((size.width / 2) - 15) * 1.1) + 105,
       decoration: BoxDecoration(color: COLOR_WHITE),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -37,69 +37,75 @@ class UserCard extends StatelessWidget {
           Container(
             width: size.width / 2 - 15,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user.name,
-                    style: TextStyle(
-                        color: COLOR_BLACK,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.name,
+                  style: TextStyle(
+                      color: COLOR_BLACK,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  height: ((size.width / 2) - 15) * 1.1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(user.education),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(user.jobTitle),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(user.education),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(user.jobTitle),
+                    ],
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(user.education),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(user.jobTitle),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(user.education),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(user.jobTitle),
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 2),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return UserDetailsScreen(
-                                user: user,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: COLOR_ORANGE),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Center(
-                          child: Text(
-                            'More Info',
-                            style: TextStyle(
-                              color: COLOR_ORANGE,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                ),
+                SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.only(right: 2),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return UserDetailsScreen(
+                              user: user,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(7),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: COLOR_ORANGE),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Center(
+                        child: Text(
+                          'More Info',
+                          style: TextStyle(
+                            color: COLOR_ORANGE,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
                           ),
                         ),
                       ),
                     ),
                   ),
-                ]),
+                ),
+              ],
+            ),
           ),
           Container(
             width: size.width / 2 - 15,
@@ -138,9 +144,7 @@ class UserCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.only(left: 2),
                     child: Container(
