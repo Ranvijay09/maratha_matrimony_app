@@ -307,6 +307,32 @@ class Database {
     return success;
   }
 
+  Future<bool> checkIfUserIsAddedToBookmarks({
+    required String uid1,
+    required String uid2,
+  }) async {
+    bool success = true;
+    try {
+      // Checking if user2 exists in user1
+      DocumentSnapshot snap1 = await db
+          .collection("users")
+          .doc(uid1)
+          .collection("bookmarks")
+          .doc(uid2)
+          .get();
+
+      !snap1.exists
+          ? bookmarkUser(userUid: uid1, bookmarkUserUid: uid2)
+              .onError((error, stackTrace) => success = false)
+          : deleteBookmark(userUid: uid1, bookmarkUserUid: uid2)
+              .onError((error, stackTrace) => success = false);
+    } catch (e) {
+      print(e.toString());
+      success = false;
+    }
+    return success;
+  }
+
   Future<bool> bookmarkUser({
     required String userUid,
     required String bookmarkUserUid,
@@ -429,7 +455,7 @@ class Database {
     await db
         .collection("users")
         .doc(userUid)
-        .collection("pending-requests")
+        .collection("sent-requests")
         .doc(otherUserUid)
         .delete()
         .onError((error, stackTrace) => success = false);
@@ -437,7 +463,7 @@ class Database {
       await db
           .collection("users")
           .doc(otherUserUid)
-          .collection("sent-requests")
+          .collection("pending-requests")
           .doc(userUid)
           .delete()
           .onError((error, stackTrace) => success = false);

@@ -68,23 +68,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemCount: _allUsers.length,
                                   itemBuilder: (context, index) {
                                     return UserCard(
-                                        pressConnectBtn: () async {
-                                          await Database().sendConnectReq(
-                                              userUid: _user!.uid,
-                                              otherUserUid:
-                                                  _allUsers[index].uid);
-                                          _allUsers.remove(_allUsers[index]);
-                                        },
-                                        bookmarked: _bookmarkIds
-                                            .contains(_allUsers[index].uid),
-                                        user: _allUsers[index],
-                                        pressBookmarkBtn: () async {
-                                          await Database().bookmarkUser(
-                                              userUid: _user!.uid,
-                                              bookmarkUserUid:
-                                                  _allUsers[index].uid);
-                                          _allUsers.remove(_allUsers[index]);
-                                        });
+                                      user: _allUsers[index],
+                                      pressConnectBtn: () async {
+                                        await Database().sendConnectReq(
+                                            userUid: _user!.uid,
+                                            otherUserUid: _allUsers[index].uid);
+                                        _allUsers.remove(_allUsers[index]);
+                                      },
+                                    );
                                   },
                                 ),
                               );

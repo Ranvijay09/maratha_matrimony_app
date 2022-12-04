@@ -36,7 +36,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
   List<String> _chatUsersUid = [];
   int _selectedChatsScreenTab = 1;
-
+  List<String> _pendingRequestsIds = [];
+  List<String> _sentRequestsIds = [];
   @override
   void initState() {
     _scrollCtl.addListener(() {
@@ -147,53 +148,43 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                   ),
                                   builder: (context, oneChatSnap) {
                                     // Check if the top chat is read or not
+                                    bool read = true;
+                                    String latestMsg =
+                                        'Tap to start conversation.';
                                     if (oneChatSnap.hasData &&
                                         oneChatSnap.data!.length > 0) {
                                       // the last message sent should not be bolded if the last message was sent by the current user.
-                                      bool read = oneChatSnap.data![0].read ||
+                                      read = oneChatSnap.data![0].read ||
                                           oneChatSnap.data![0].uid ==
                                               _user!.uid;
                                       String latestMsg =
                                           oneChatSnap.data![0].message;
-                                      return FutureBuilder<MyUser>(
-                                          future: UserModel
-                                              .getParticularUserDetails(
-                                                  _chatUsersUid[index]),
-                                          builder: (context, snap) {
-                                            if (snap.hasData) {
-                                              MyUser curUser = snap.data!;
-                                              return ChatCard(
-                                                user: curUser,
-                                                lastMessage: latestMsg,
-                                                read: read,
-                                                press: () => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const MessagesScreen(),
-                                                  ),
-                                                ),
-                                              );
-                                            } else {
-                                              return ListTile(
-                                                title:
-                                                    LinearProgressIndicator(),
-                                              );
-                                            }
-                                          });
-                                    } else {
-                                      return Container(
-                                        height: 300,
-                                        alignment: Alignment.bottomCenter,
-                                        child: Text(
-                                          "No Messages yet!",
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      );
                                     }
+                                    return FutureBuilder<MyUser>(
+                                        future:
+                                            UserModel.getParticularUserDetails(
+                                                _chatUsersUid[index]),
+                                        builder: (context, snap) {
+                                          if (snap.hasData) {
+                                            MyUser curUser = snap.data!;
+                                            return ChatCard(
+                                              user: curUser,
+                                              lastMessage: latestMsg,
+                                              read: read,
+                                              press: () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const MessagesScreen(),
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            return ListTile(
+                                              title: LinearProgressIndicator(),
+                                            );
+                                          }
+                                        });
                                   });
                             },
                           ),
@@ -206,7 +197,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         stream: UserModel.getPendingRequests(_user!.uid),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            List<String> _pendingRequestsIds = snapshot.data!;
+                            _pendingRequestsIds = snapshot.data!;
 
                             if (_pendingRequestsIds.length == 0) {
                               return Expanded(
@@ -233,26 +224,18 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                         if (snap.hasData) {
                                           MyUser curUser = snap.data!;
                                           return UserCard(
-                                              connectBtnText: 'Accept Request',
-                                              pressConnectBtn: () async {
-                                                await Database()
-                                                    .acceptConnectReq(
-                                                        userUid: _user!.uid,
-                                                        otherUserUid:
-                                                            _pendingRequestsIds[
-                                                                index]);
-                                                _pendingRequestsIds.remove(
-                                                    _pendingRequestsIds[index]);
-                                              },
-                                              hideBookmarkBtn: true,
-                                              user: curUser,
-                                              pressBookmarkBtn: () async {
-                                                await Database().deleteBookmark(
-                                                    userUid: _user!.uid,
-                                                    bookmarkUserUid:
-                                                        _pendingRequestsIds[
-                                                            index]);
-                                              });
+                                            connectBtnText: 'Accept Request',
+                                            pressConnectBtn: () async {
+                                              await Database().acceptConnectReq(
+                                                  userUid: _user!.uid,
+                                                  otherUserUid:
+                                                      _pendingRequestsIds[
+                                                          index]);
+                                              _pendingRequestsIds.remove(
+                                                  _pendingRequestsIds[index]);
+                                            },
+                                            user: curUser,
+                                          );
                                         } else {
                                           return ListTile(
                                             title: LinearProgressIndicator(),
@@ -273,7 +256,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         stream: UserModel.getSentRequests(_user!.uid),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            List<String> _sentRequestsIds = snapshot.data!;
+                            _sentRequestsIds = snapshot.data!;
 
                             if (_sentRequestsIds.length == 0) {
                               return Expanded(
@@ -300,27 +283,18 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                         if (snap.hasData) {
                                           MyUser curUser = snap.data!;
                                           return UserCard(
-                                              connectBtnText: 'Cancel Request',
-                                              connectBtncolor: Colors.red,
-                                              pressConnectBtn: () async {
-                                                await Database()
-                                                    .cancelConnectReq(
-                                                        userUid: _user!.uid,
-                                                        otherUserUid:
-                                                            _sentRequestsIds[
-                                                                index]);
-                                                _sentRequestsIds.remove(
-                                                    _sentRequestsIds[index]);
-                                              },
-                                              hideBookmarkBtn: true,
-                                              user: curUser,
-                                              pressBookmarkBtn: () async {
-                                                await Database().deleteBookmark(
-                                                    userUid: _user!.uid,
-                                                    bookmarkUserUid:
-                                                        _sentRequestsIds[
-                                                            index]);
-                                              });
+                                            connectBtnText: 'Cancel Request',
+                                            connectBtncolor: Colors.red,
+                                            pressConnectBtn: () async {
+                                              await Database().cancelConnectReq(
+                                                  userUid: _user!.uid,
+                                                  otherUserUid:
+                                                      _sentRequestsIds[index]);
+                                              _sentRequestsIds.remove(
+                                                  _sentRequestsIds[index]);
+                                            },
+                                            user: curUser,
+                                          );
                                         } else {
                                           return ListTile(
                                             title: LinearProgressIndicator(),

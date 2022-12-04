@@ -59,15 +59,9 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                               if (snap.hasData) {
                                 MyUser curUser = snap.data!;
                                 return UserCard(
-                                    pressConnectBtn: () {},
-                                    bookmarked: true,
-                                    user: curUser,
-                                    pressBookmarkBtn: () async {
-                                      await Database().deleteBookmark(
-                                          userUid: _user!.uid,
-                                          bookmarkUserUid: _bookmarkIds[index]);
-                                      _bookmarkIds.remove(_bookmarkIds[index]);
-                                    });
+                                  pressConnectBtn: () {},
+                                  user: curUser,
+                                );
                               } else {
                                 return ListTile(
                                   title: LinearProgressIndicator(),

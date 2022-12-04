@@ -13,20 +13,14 @@ import '../models/MyUser.dart';
 
 class UserCard extends StatelessWidget {
   final MyUser user;
-  final VoidCallback pressBookmarkBtn;
   final VoidCallback pressConnectBtn;
-  final bool bookmarked;
-  final bool hideBookmarkBtn;
 
   final String connectBtnText;
   final Color connectBtncolor;
   const UserCard({
     super.key,
     required this.user,
-    required this.pressBookmarkBtn,
     required this.pressConnectBtn,
-    this.bookmarked = false,
-    this.hideBookmarkBtn = false,
     this.connectBtnText = 'Connect Request',
     this.connectBtncolor = COLOR_ORANGE,
   });
@@ -45,7 +39,7 @@ class UserCard extends StatelessWidget {
         left: 15,
         right: 15,
       ),
-      height: (((size.width / 2) - 15) * 1.1) + 110,
+      height: (((size.width / 2) - 15) * 1.1) + 100,
       decoration: BoxDecoration(color: COLOR_WHITE),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -66,6 +60,8 @@ class UserCard extends StatelessWidget {
                             color: COLOR_BLACK,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(
                         height: 10,
@@ -82,9 +78,10 @@ class UserCard extends StatelessWidget {
                           Text(
                             DateFormat('dd MMM, yyyy').format(user.dob),
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               color: COLOR_BLACK,
                             ),
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
@@ -104,10 +101,11 @@ class UserCard extends StatelessWidget {
                           Text(
                             user.district,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               color: COLOR_BLACK,
                             ),
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -126,10 +124,11 @@ class UserCard extends StatelessWidget {
                           Text(
                             user.highestEducation,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               color: COLOR_BLACK,
                             ),
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -148,10 +147,11 @@ class UserCard extends StatelessWidget {
                           Text(
                             user.diet,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               color: COLOR_BLACK,
                             ),
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -170,10 +170,11 @@ class UserCard extends StatelessWidget {
                           Text(
                             user.rashi,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               color: COLOR_BLACK,
                             ),
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -192,10 +193,11 @@ class UserCard extends StatelessWidget {
                           Text(
                             user.maritalStatus,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               color: COLOR_BLACK,
                             ),
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -210,8 +212,7 @@ class UserCard extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return UserDetailsScreen(
-                                user: user, isBookmarked: bookmarked);
+                            return UserDetailsScreen(user: user);
                           },
                         ),
                       );
@@ -248,25 +249,6 @@ class UserCard extends StatelessWidget {
                           children: [
                             Text(user.weight.toString() + 'kg | '),
                             Text(user.height.toString() + 'cm'),
-                            hideBookmarkBtn
-                                ? SizedBox()
-                                : Column(
-                                    children: [
-                                      SizedBox(
-                                        width: 3,
-                                      ),
-                                      IconButton(
-                                        onPressed: pressBookmarkBtn,
-                                        icon: Icon(
-                                          FontAwesomeIcons.solidBookmark,
-                                          size: 20,
-                                          color: bookmarked
-                                              ? COLOR_BLACK
-                                              : COLOR_BLACK.withOpacity(.4),
-                                        ),
-                                      ),
-                                    ],
-                                  )
                           ],
                         ),
                         SizedBox(

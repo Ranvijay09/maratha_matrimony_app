@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:maratha_matrimony_app/models/MyUser.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
+import 'package:maratha_matrimony_app/utils/Constants.dart';
 
 class ChatCard extends StatelessWidget {
   const ChatCard({
@@ -21,35 +22,16 @@ class ChatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashColor: COLOR_GREY,
       onTap: press,
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.75),
         child: Row(
           children: [
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundImage: NetworkImage(user.photoUrl),
-                ),
-                // if (chat.isActive)
-                //   Positioned(
-                //     right: 0,
-                //     bottom: 0,
-                //     child: Container(
-                //       height: 16,
-                //       width: 16,
-                //       decoration: BoxDecoration(
-                //         color: kPrimaryColor,
-                //         shape: BoxShape.circle,
-                //         border: Border.all(
-                //             color: Theme.of(context).scaffoldBackgroundColor,
-                //             width: 3),
-                //       ),
-                //     ),
-                //   )
-              ],
+            CircleAvatar(
+              radius: 24,
+              backgroundImage: NetworkImage(user.photoUrl),
             ),
             Expanded(
               child: Padding(
@@ -59,9 +41,10 @@ class ChatCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      user.firstName,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      user.firstName + ' ' + user.lastName,
+                      style: TextStyle(
+                        fontWeight: !read ? FontWeight.bold : null,
+                      ),
                     ),
                     SizedBox(height: 8),
                     Opacity(
@@ -70,6 +53,9 @@ class ChatCard extends StatelessWidget {
                         lastMessage,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: !read ? FontWeight.bold : null,
+                        ),
                       ),
                     ),
                   ],
