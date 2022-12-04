@@ -39,9 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ).show(context);
         _passwordController.clear();
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => ScreenManager()),
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ScreenManager(),
+          ),
         );
       }
     }
@@ -203,28 +204,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: GestureDetector(
-                      onTap: () => signIn(),
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                            color: Colors.orange[400],
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Center(
-                          child: (_auth?.isLoading ?? false)
-                              ? CircularProgressIndicator(color: Colors.white)
-                              : Text(
-                                  'Sign In',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: MaterialButton(
+                        onPressed: signIn,
+                        minWidth: double.infinity,
+                        height: 60,
+                        color: COLOR_ORANGE,
+                        child: (_auth?.isLoading ?? false)
+                            ? CircularProgressIndicator(color: Colors.white)
+                            : Text(
+                                "Sign In",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                        ),
+                              ),
                       ),
                     ),
                   ),
+
                   SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

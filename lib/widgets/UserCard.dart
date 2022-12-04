@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings
 
 import 'dart:ui';
 
@@ -41,16 +41,18 @@ class UserCard extends StatelessWidget {
       ),
       padding: EdgeInsets.only(
         top: 10,
+        bottom: 3,
         left: 15,
         right: 15,
       ),
-      height: (((size.width / 2) - 15) * 1.1) + 105,
+      height: (((size.width / 2) - 15) * 1.1) + 110,
       decoration: BoxDecoration(color: COLOR_WHITE),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             width: size.width / 2 - 15,
+            padding: EdgeInsets.only(right: 2),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -200,10 +202,10 @@ class UserCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 2),
-                  child: GestureDetector(
-                    onTap: () {
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: MaterialButton(
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -214,20 +216,15 @@ class UserCard extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Container(
-                      padding: EdgeInsets.all(7),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: COLOR_ORANGE),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Center(
-                        child: Text(
-                          'More Info',
-                          style: TextStyle(
-                            color: COLOR_ORANGE,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
+                    minWidth: double.infinity,
+                    height: 50,
+                    color: COLOR_WHITE.withOpacity(.6),
+                    child: Text(
+                      'More Info',
+                      style: TextStyle(
+                        color: COLOR_ORANGE,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -238,6 +235,7 @@ class UserCard extends StatelessWidget {
           ),
           Container(
             width: size.width / 2 - 15,
+            padding: EdgeInsets.only(left: 2),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,31 +279,25 @@ class UserCard extends StatelessWidget {
                               image: NetworkImage(user.photoUrl),
                               fit: BoxFit.cover,
                             ),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2),
-                    child: GestureDetector(
-                      onTap: pressConnectBtn,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: connectBtncolor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Text(
-                            connectBtnText,
-                            style: TextStyle(
-                              color: COLOR_WHITE,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: MaterialButton(
+                      onPressed: pressConnectBtn,
+                      minWidth: double.infinity,
+                      height: 50,
+                      color: connectBtncolor,
+                      child: Text(
+                        connectBtnText,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),

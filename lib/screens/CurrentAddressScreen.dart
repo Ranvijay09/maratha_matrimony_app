@@ -392,23 +392,22 @@ class _CurrentAddressScreenState extends State<CurrentAddressScreen> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => saveCurrentAddressToDB(),
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: Colors.orange[400],
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
+                ClipRRect(
+                  child: MaterialButton(
+                    onPressed: saveCurrentAddressToDB,
+                    minWidth: double.infinity,
+                    height: 60,
+                    color: COLOR_ORANGE,
+                    child: (_auth?.isLoading ?? false)
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            "Continue",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
               ],

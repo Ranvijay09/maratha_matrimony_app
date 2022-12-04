@@ -86,23 +86,6 @@ class UserDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: Container(
-          height: 56,
-          padding: EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: Colors.orange[400],
-          ),
-          child: Center(
-            child: Text(
-              'Connect Request',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
