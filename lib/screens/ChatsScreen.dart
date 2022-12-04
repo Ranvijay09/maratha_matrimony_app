@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maratha_matrimony_app/components/FillOutlineButton.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
-import 'package:maratha_matrimony_app/models/Chat.dart';
 import 'package:maratha_matrimony_app/models/ChatModel.dart';
 import 'package:maratha_matrimony_app/models/MyUser.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
@@ -60,18 +59,20 @@ class _ChatsScreenState extends State<ChatsScreen> {
             color: kPrimaryColor,
             child: Row(
               children: <Widget>[
-                FillOutlineButton(press: () {}, text: "Messages"),
+                FillOutlineButton(
+                  press: () {},
+                  text: "All Chats",
+                  isFilled: true,
+                ),
                 SizedBox(width: kDefaultPadding - 5),
                 FillOutlineButton(
                   press: () {},
                   text: "New Requests",
-                  isFilled: false,
                 ),
                 SizedBox(width: kDefaultPadding - 5),
                 FillOutlineButton(
                   press: () {},
                   text: "Sent Requests",
-                  isFilled: false,
                 ),
               ],
             ),
@@ -118,7 +119,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                   ),
                                 );
                         }
-                        return StreamBuilder<List<vChat>>(
+                        return StreamBuilder<List<Chat>>(
                             stream: ChatModel.getOneChat(
                               UserModel.getCombinedUid(
                                   _user!.uid, _chatUsersUid[index]),

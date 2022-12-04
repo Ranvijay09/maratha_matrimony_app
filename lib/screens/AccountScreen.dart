@@ -36,8 +36,7 @@ class _AccountScreenState extends State<AccountScreen> {
         child: Column(
           children: [
             ProfilePic(
-                imagePath:
-                    image == null ? _user!.photoURL : UserModel.defaultPhotoUrl,
+                imagePath: _user!.photoURL,
                 onBtnClick: () async => {
                       image = await ImagePicker()
                           .pickImage(source: ImageSource.gallery)

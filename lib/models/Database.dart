@@ -181,36 +181,6 @@ class Database {
     return isSuccess;
   }
 
-  Future<bool> addProfilePicAndDocument({
-    required String uid,
-    required String height,
-    required String weight,
-    required String bloodGroup,
-    required String complexion,
-    required String physicalStatus,
-    required String bodyType,
-    required String diet,
-    required String smoke,
-    required String drink,
-  }) async {
-    bool isSuccess = true;
-    await db.collection("users").doc(uid).update({
-      "height": height,
-      "weight": weight,
-      "bloodGroup": bloodGroup,
-      "complexion": complexion,
-      "physicalStatus": physicalStatus,
-      "bodyType": bodyType,
-      "diet": diet,
-      "smoke": smoke,
-      "drink": drink,
-    }).onError((error, stackTrace) {
-      print(error.toString());
-      isSuccess = false;
-    });
-    return isSuccess;
-  }
-
   Future<bool> addPhysicalAttributes({
     required String uid,
     required String height,
@@ -432,6 +402,11 @@ class Database {
             .set({
           "uid": otherUserUid,
         }).onError((error, stackTrace) => success = false);
+
+        String combinedUid = UserModel.getCombinedUid(userUid, otherUserUid);
+        await db.collection("all-chats").doc(combinedUid).set({
+          "combinedUid": combinedUid,
+        });
       }
     }
     return success;

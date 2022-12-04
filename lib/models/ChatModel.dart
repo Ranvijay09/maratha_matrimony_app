@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:maratha_matrimony_app/models/Database.dart';
 
 class ChatModel {
-  static List<vChat> _convertSnapshots(QuerySnapshot snapshot) {
+  static List<Chat> _convertSnapshots(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return vChat(
+      return Chat(
           uid: doc["uid"],
           message: doc["message"],
           read: doc["read"],
@@ -12,7 +12,7 @@ class ChatModel {
     }).toList();
   }
 
-  static Stream<List<vChat>> getChats(String combinedUid) {
+  static Stream<List<Chat>> getChats(String combinedUid) {
     return Database()
         .db
         .collection("all-chats")
@@ -23,7 +23,7 @@ class ChatModel {
         .map(_convertSnapshots);
   }
 
-  static Stream<List<vChat>> getOneChat(String combinedUid) {
+  static Stream<List<Chat>> getOneChat(String combinedUid) {
     return Database()
         .db
         .collection("all-chats")
@@ -64,13 +64,13 @@ class ChatModel {
   }
 }
 
-class vChat {
+class Chat {
   final String uid;
   final String message;
   final bool read;
   final DateTime timestamp;
 
-  vChat(
+  Chat(
       {required this.uid,
       required this.message,
       required this.read,

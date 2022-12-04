@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:maratha_matrimony_app/models/Database.dart';
+import 'package:maratha_matrimony_app/models/MyUser.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -88,6 +89,11 @@ class AuthService with ChangeNotifier {
     try {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
+      if (userCredential.user != null) {
+        MyUser user =
+            await UserModel.getParticularUserDetails(userCredential.user!.uid);
+        await userCredential.user!.updatePhotoURL(user.photoUrl);
+      }
       setLoading(false);
 
       return userCredential.user;

@@ -4,7 +4,7 @@ import 'package:maratha_matrimony_app/utils/Constants.dart';
 class FillOutlineButton extends StatelessWidget {
   const FillOutlineButton({
     Key? key,
-    this.isFilled = true,
+    this.isFilled = false,
     required this.press,
     required this.text,
   }) : super(key: key);
