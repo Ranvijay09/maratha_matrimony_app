@@ -263,6 +263,26 @@ class UserModel {
         .map(_convertBookmarkSnapshot);
   }
 
+  static Stream<List<String>> getPendingRequests(String uid) {
+    return Database()
+        .db
+        .collection("users")
+        .doc(uid)
+        .collection("pending-requests")
+        .snapshots()
+        .map(_convertBookmarkSnapshot);
+  }
+
+  static Stream<List<String>> getSentRequests(String uid) {
+    return Database()
+        .db
+        .collection("users")
+        .doc(uid)
+        .collection("sent-requests")
+        .snapshots()
+        .map(_convertBookmarkSnapshot);
+  }
+
   static String getCombinedUid(String uid1, String uid2) {
     int i = 0;
     int minLen = min(uid1.length, uid2.length);

@@ -411,4 +411,28 @@ class Database {
     }
     return success;
   }
+
+  Future<bool> cancelConnectReq({
+    required String userUid,
+    required String otherUserUid,
+  }) async {
+    bool success = true;
+    await db
+        .collection("users")
+        .doc(userUid)
+        .collection("pending-requests")
+        .doc(otherUserUid)
+        .delete()
+        .onError((error, stackTrace) => success = false);
+    if (success) {
+      await db
+          .collection("users")
+          .doc(otherUserUid)
+          .collection("sent-requests")
+          .doc(userUid)
+          .delete()
+          .onError((error, stackTrace) => success = false);
+    }
+    return success;
+  }
 }

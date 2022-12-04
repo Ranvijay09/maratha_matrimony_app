@@ -59,6 +59,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                               if (snap.hasData) {
                                 MyUser curUser = snap.data!;
                                 return UserCard(
+                                    pressConnectBtn: () {},
                                     bookmarked: true,
                                     user: curUser,
                                     pressBookmarkBtn: () async {

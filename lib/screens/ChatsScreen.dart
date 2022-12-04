@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:maratha_matrimony_app/components/FillOutlineButton.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
 import 'package:maratha_matrimony_app/models/ChatModel.dart';
+import 'package:maratha_matrimony_app/models/Database.dart';
 import 'package:maratha_matrimony_app/models/MyUser.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
 import 'package:maratha_matrimony_app/screens/MessagesScreen.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 import 'package:maratha_matrimony_app/widgets/ChatCard.dart';
+import 'package:maratha_matrimony_app/widgets/UserCard.dart';
 import 'package:provider/provider.dart';
 
 class ChatsScreen extends StatefulWidget {
@@ -33,6 +35,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
   bool _allUsersLoaded = false;
 
   List<String> _chatUsersUid = [];
+  int _selectedChatsScreenTab = 1;
 
   @override
   void initState() {
@@ -50,207 +53,274 @@ class _ChatsScreenState extends State<ChatsScreen> {
   Widget build(BuildContext context) {
     _user = Provider.of<User?>(context);
     _auth = Provider.of<AuthService>(context);
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(
-                kDefaultPadding, 0, kDefaultPadding, kDefaultPadding),
-            color: kPrimaryColor,
-            child: Row(
-              children: <Widget>[
-                FillOutlineButton(
-                  press: () {},
-                  text: "All Chats",
-                  isFilled: true,
-                ),
-                SizedBox(width: kDefaultPadding - 5),
-                FillOutlineButton(
-                  press: () {},
-                  text: "New Requests",
-                ),
-                SizedBox(width: kDefaultPadding - 5),
-                FillOutlineButton(
-                  press: () {},
-                  text: "Sent Requests",
-                ),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                  kDefaultPadding, 0, kDefaultPadding, kDefaultPadding),
+              color: kPrimaryColor,
+              child: Row(
+                children: <Widget>[
+                  FillOutlineButton(
+                    press: () {
+                      setState(() {
+                        _selectedChatsScreenTab = 1;
+                      });
+                    },
+                    text: "All Chats",
+                    isFilled: _selectedChatsScreenTab == 1,
+                  ),
+                  SizedBox(width: kDefaultPadding - 5),
+                  FillOutlineButton(
+                    press: () {
+                      setState(() {
+                        _selectedChatsScreenTab = 2;
+                      });
+                    },
+                    text: "New Requests",
+                    isFilled: _selectedChatsScreenTab == 2,
+                  ),
+                  SizedBox(width: kDefaultPadding - 5),
+                  FillOutlineButton(
+                    press: () {
+                      setState(() {
+                        _selectedChatsScreenTab = 3;
+                      });
+                    },
+                    text: "Sent Requests",
+                    isFilled: _selectedChatsScreenTab == 3,
+                  ),
+                ],
+              ),
             ),
-          ),
-          StreamBuilder<List<String>>(
-              stream: ChatModel.getChatUsers(_user!.uid),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  _chatUsersUid = snapshot.data!
-                      .getRange(0, min(_currentMax, snapshot.data!.length))
-                      .toList();
-                  if (_currentMax >= snapshot.data!.length) {
-                    _allUsersLoaded = true;
-                  }
-
-                  if (_chatUsersUid.length == 0) {
-                    return Expanded(
-                      child: Center(
-                        child: Text(
-                          "No Chats Yet!",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 102, 102, 102),
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  return Expanded(
-                    child: ListView.builder(
-                      controller: _scrollCtl,
-                      itemCount:
-                          min(_chatUsersUid.length, snapshot.data!.length) + 1,
-                      itemBuilder: (context, index) {
-                        if (index == _chatUsersUid.length) {
-                          return _allUsersLoaded
-                              ? Container()
-                              : Center(
-                                  child: Container(
-                                    padding: EdgeInsets.only(top: 20),
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
+            _selectedChatsScreenTab == 1
+                ? StreamBuilder<List<String>>(
+                    stream: ChatModel.getChatUsers(_user!.uid),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        _chatUsersUid = snapshot.data!
+                            .getRange(
+                                0, min(_currentMax, snapshot.data!.length))
+                            .toList();
+                        if (_currentMax >= snapshot.data!.length) {
+                          _allUsersLoaded = true;
                         }
-                        return StreamBuilder<List<Chat>>(
-                            stream: ChatModel.getOneChat(
-                              UserModel.getCombinedUid(
-                                  _user!.uid, _chatUsersUid[index]),
+
+                        if (_chatUsersUid.length == 0) {
+                          return Expanded(
+                            child: Center(
+                              child: Text(
+                                "No Chats Yet!",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 102, 102, 102),
+                                  fontSize: 16,
+                                ),
+                              ),
                             ),
-                            builder: (context, oneChatSnap) {
-                              // Check if the top chat is read or not
-                              if (oneChatSnap.hasData &&
-                                  oneChatSnap.data!.length > 0) {
-                                // the last message sent should not be bolded if the last message was sent by the current user.
-                                bool read = oneChatSnap.data![0].read ||
-                                    oneChatSnap.data![0].uid == _user!.uid;
-                                String latestMsg = oneChatSnap.data![0].message;
-                                return FutureBuilder<MyUser>(
-                                    future: UserModel.getParticularUserDetails(
-                                        _chatUsersUid[index]),
-                                    builder: (context, snap) {
-                                      if (snap.hasData) {
-                                        MyUser curUser = snap.data!;
-                                        return ChatCard(
-                                          user: curUser,
-                                          lastMessage: latestMsg,
-                                          read: read,
-                                          press: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const MessagesScreen(),
-                                            ),
+                          );
+                        }
+                        return Expanded(
+                          child: ListView.builder(
+                            controller: _scrollCtl,
+                            itemCount: min(_chatUsersUid.length,
+                                    snapshot.data!.length) +
+                                1,
+                            itemBuilder: (context, index) {
+                              if (index == _chatUsersUid.length) {
+                                return _allUsersLoaded
+                                    ? Container()
+                                    : Center(
+                                        child: Container(
+                                          padding: EdgeInsets.only(top: 20),
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                              }
+                              return StreamBuilder<List<Chat>>(
+                                  stream: ChatModel.getOneChat(
+                                    UserModel.getCombinedUid(
+                                        _user!.uid, _chatUsersUid[index]),
+                                  ),
+                                  builder: (context, oneChatSnap) {
+                                    // Check if the top chat is read or not
+                                    if (oneChatSnap.hasData &&
+                                        oneChatSnap.data!.length > 0) {
+                                      // the last message sent should not be bolded if the last message was sent by the current user.
+                                      bool read = oneChatSnap.data![0].read ||
+                                          oneChatSnap.data![0].uid ==
+                                              _user!.uid;
+                                      String latestMsg =
+                                          oneChatSnap.data![0].message;
+                                      return FutureBuilder<MyUser>(
+                                          future: UserModel
+                                              .getParticularUserDetails(
+                                                  _chatUsersUid[index]),
+                                          builder: (context, snap) {
+                                            if (snap.hasData) {
+                                              MyUser curUser = snap.data!;
+                                              return ChatCard(
+                                                user: curUser,
+                                                lastMessage: latestMsg,
+                                                read: read,
+                                                press: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const MessagesScreen(),
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              return ListTile(
+                                                title:
+                                                    LinearProgressIndicator(),
+                                              );
+                                            }
+                                          });
+                                    } else {
+                                      return Container(
+                                        height: 300,
+                                        alignment: Alignment.bottomCenter,
+                                        child: Text(
+                                          "No Messages yet!",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16,
                                           ),
-                                        );
-                                        //   return ListTile(
-                                        //     onTap: () {
-                                        //       Navigator.push(
-                                        //         context,
-                                        //         MaterialPageRoute(
-                                        //           builder: (context) =>
-                                        //               const MessagesScreen(),
-                                        //         ),
-                                        //       );
-                                        //     },
-                                        //     leading: ClipOval(
-                                        //       child: Material(
-                                        //         color: Colors.white,
-                                        //         child: CachedNetworkImage(
-                                        //           imageUrl: curUser.photoUrl,
-                                        //           progressIndicatorBuilder:
-                                        //               (context, url,
-                                        //                       downloadProgress) =>
-                                        //                   CircularProgressIndicator(
-                                        //             value:
-                                        //                 downloadProgress.progress,
-                                        //           ),
-                                        //           errorWidget:
-                                        //               (context, url, error) =>
-                                        //                   Icon(Icons.error),
-                                        //           fit: BoxFit.contain,
-                                        //           width: 50,
-                                        //           height: 50,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //     title: Text(
-                                        //       curUser.firstName,
-                                        //       style: TextStyle(
-                                        //         fontWeight: !read
-                                        //             ? FontWeight.bold
-                                        //             : null,
-                                        //       ),
-                                        //     ),
-                                        //     subtitle: Text(
-                                        //       latestMsg,
-                                        //       style: TextStyle(
-                                        //         fontWeight: !read
-                                        //             ? FontWeight.bold
-                                        //             : null,
-                                        //       ),
-                                        //       maxLines: 1,
-                                        //       overflow: TextOverflow.ellipsis,
-                                        //     ),
-                                        // trailing: !read
-                                        //     ? Container(
-                                        //         height: 10,
-                                        //         width: 10,
-                                        //         decoration: BoxDecoration(
-                                        //           shape: BoxShape.circle,
-                                        //           color: Colors.red,
-                                        //         ),
-                                        //       )
-                                        //     : SizedBox(),
-                                        //   );
-                                      } else {
-                                        return ListTile(
-                                          title: LinearProgressIndicator(),
-                                        );
-                                      }
-                                    });
-                              } else {
-                                return Container(
-                                  height: 300,
-                                  alignment: Alignment.bottomCenter,
+                                        ),
+                                      );
+                                    }
+                                  });
+                            },
+                          ),
+                        );
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    })
+                : (_selectedChatsScreenTab == 2)
+                    ? StreamBuilder<List<String>>(
+                        stream: UserModel.getPendingRequests(_user!.uid),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<String> _pendingRequestsIds = snapshot.data!;
+
+                            if (_pendingRequestsIds.length == 0) {
+                              return Expanded(
+                                child: Center(
                                   child: Text(
-                                    "No Messages yet!",
+                                    "No Pending Connection Requests!",
                                     style: TextStyle(
-                                      color: Colors.grey,
+                                      color: Color.fromARGB(255, 102, 102, 102),
                                       fontSize: 16,
                                     ),
                                   ),
-                                );
-                              }
-                            });
-                      },
-                    ),
-                  );
-                }
-                return Center(child: CircularProgressIndicator());
-              }),
-          // Expanded(
-          //   child: ListView.builder(
-          //     itemCount: chatsData.length,
-          //     itemBuilder: (context, index) => ChatCard(
-          //       chat: chatsData[index],
-          //       press: () => Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => const MessagesScreen(),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-        ],
+                                ),
+                              );
+                            }
+                            return Expanded(
+                              child: ListView.builder(
+                                itemCount: _pendingRequestsIds.length,
+                                itemBuilder: (context, index) {
+                                  return FutureBuilder<MyUser>(
+                                      future:
+                                          UserModel.getParticularUserDetails(
+                                              _pendingRequestsIds[index]),
+                                      builder: (context, snap) {
+                                        if (snap.hasData) {
+                                          MyUser curUser = snap.data!;
+                                          return UserCard(
+                                              connectBtnText: 'Accept Request',
+                                              pressConnectBtn: () {},
+                                              hideBookmarkBtn: true,
+                                              user: curUser,
+                                              pressBookmarkBtn: () async {
+                                                await Database().deleteBookmark(
+                                                    userUid: _user!.uid,
+                                                    bookmarkUserUid:
+                                                        _pendingRequestsIds[
+                                                            index]);
+                                              });
+                                        } else {
+                                          return ListTile(
+                                            title: LinearProgressIndicator(),
+                                          );
+                                        }
+                                      });
+                                },
+                              ),
+                            );
+                          } else {
+                            return Expanded(
+                                child:
+                                    Center(child: CircularProgressIndicator()));
+                          }
+                        },
+                      )
+                    : StreamBuilder<List<String>>(
+                        stream: UserModel.getSentRequests(_user!.uid),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<String> _sentRequestsIds = snapshot.data!;
+
+                            if (_sentRequestsIds.length == 0) {
+                              return Expanded(
+                                child: Center(
+                                  child: Text(
+                                    "No Sent Requests!",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 102, 102, 102),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return Expanded(
+                              child: ListView.builder(
+                                itemCount: _sentRequestsIds.length,
+                                itemBuilder: (context, index) {
+                                  return FutureBuilder<MyUser>(
+                                      future:
+                                          UserModel.getParticularUserDetails(
+                                              _sentRequestsIds[index]),
+                                      builder: (context, snap) {
+                                        if (snap.hasData) {
+                                          MyUser curUser = snap.data!;
+                                          return UserCard(
+                                              connectBtnText: 'Cancel Request',
+                                              connectBtncolor: Colors.red,
+                                              pressConnectBtn: () {},
+                                              hideBookmarkBtn: true,
+                                              user: curUser,
+                                              pressBookmarkBtn: () async {
+                                                await Database().deleteBookmark(
+                                                    userUid: _user!.uid,
+                                                    bookmarkUserUid:
+                                                        _sentRequestsIds[
+                                                            index]);
+                                              });
+                                        } else {
+                                          return ListTile(
+                                            title: LinearProgressIndicator(),
+                                          );
+                                        }
+                                      });
+                                },
+                              ),
+                            );
+                          } else {
+                            return Expanded(
+                                child:
+                                    Center(child: CircularProgressIndicator()));
+                          }
+                        },
+                      ),
+          ],
+        ),
       ),
     );
   }

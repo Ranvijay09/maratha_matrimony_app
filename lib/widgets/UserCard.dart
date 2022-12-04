@@ -14,12 +14,22 @@ import '../models/MyUser.dart';
 class UserCard extends StatelessWidget {
   final MyUser user;
   final VoidCallback pressBookmarkBtn;
+  final VoidCallback pressConnectBtn;
   final bool bookmarked;
-  const UserCard(
-      {super.key,
-      required this.user,
-      required this.pressBookmarkBtn,
-      required this.bookmarked});
+  final bool hideBookmarkBtn;
+
+  final String connectBtnText;
+  final Color connectBtncolor;
+  const UserCard({
+    super.key,
+    required this.user,
+    required this.pressBookmarkBtn,
+    required this.pressConnectBtn,
+    this.bookmarked = false,
+    this.hideBookmarkBtn = false,
+    this.connectBtnText = 'Connect Request',
+    this.connectBtncolor = COLOR_ORANGE,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -240,19 +250,25 @@ class UserCard extends StatelessWidget {
                           children: [
                             Text(user.weight.toString() + 'kg | '),
                             Text(user.height.toString() + 'cm'),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            IconButton(
-                              onPressed: pressBookmarkBtn,
-                              icon: Icon(
-                                FontAwesomeIcons.solidBookmark,
-                                size: 20,
-                                color: bookmarked
-                                    ? COLOR_BLACK
-                                    : COLOR_BLACK.withOpacity(.4),
-                              ),
-                            ),
+                            hideBookmarkBtn
+                                ? SizedBox()
+                                : Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      IconButton(
+                                        onPressed: pressBookmarkBtn,
+                                        icon: Icon(
+                                          FontAwesomeIcons.solidBookmark,
+                                          size: 20,
+                                          color: bookmarked
+                                              ? COLOR_BLACK
+                                              : COLOR_BLACK.withOpacity(.4),
+                                        ),
+                                      ),
+                                    ],
+                                  )
                           ],
                         ),
                         SizedBox(
@@ -276,12 +292,12 @@ class UserCard extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: COLOR_ORANGE,
+                        color: connectBtncolor,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Center(
                         child: Text(
-                          'Connect Request',
+                          connectBtnText,
                           style: TextStyle(
                             color: COLOR_WHITE,
                             fontWeight: FontWeight.bold,
