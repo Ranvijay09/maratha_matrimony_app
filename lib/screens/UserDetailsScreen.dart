@@ -3,14 +3,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:maratha_matrimony_app/utils/constants.dart';
+import 'package:maratha_matrimony_app/utils/Constants.dart';
 
-import '../../models/user_model.dart';
+import '../models/MyUser.dart';
 
 class UserDetailsScreen extends StatelessWidget {
-  final User user;
+  final MyUser user;
+  final bool isBookmarked;
 
-  const UserDetailsScreen({super.key, required this.user});
+  const UserDetailsScreen(
+      {super.key, required this.user, required this.isBookmarked});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class UserDetailsScreen extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(user.imageUrls[0]),
+                        image: NetworkImage(user.photoUrl),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.only(
@@ -72,7 +74,9 @@ class UserDetailsScreen extends StatelessWidget {
                         icon: Icon(
                           FontAwesomeIcons.solidBookmark,
                           size: 20,
-                          color: COLOR_BLACK.withOpacity(.4),
+                          color: isBookmarked
+                              ? COLOR_BLACK
+                              : COLOR_BLACK.withOpacity(.4),
                         ),
                       ),
                     ),
