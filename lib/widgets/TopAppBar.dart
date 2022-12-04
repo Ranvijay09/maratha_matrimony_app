@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maratha_matrimony_app/utils/constants.dart';
+import 'package:maratha_matrimony_app/utils/Constants.dart';
 
-class HomeScreenAppBar extends StatelessWidget with PreferredSizeWidget {
-  const HomeScreenAppBar({
-    Key? key,
-  }) : super(key: key);
+class TopAppBar extends StatelessWidget with PreferredSizeWidget {
+  final int? tab;
+  const TopAppBar({Key? key, required this.tab}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
       elevation: 0,
       title: Row(
         children: [
@@ -39,18 +39,21 @@ class HomeScreenAppBar extends StatelessWidget with PreferredSizeWidget {
         ],
       ),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            FontAwesomeIcons.sliders,
-            color: COLOR_ORANGE,
-            size: 20,
+        Visibility(
+          visible: tab == 0,
+          child: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              FontAwesomeIcons.sliders,
+              color: COLOR_ORANGE,
+              size: 20,
+            ),
           ),
         ),
       ],
     );
   }
-  
+
   @override
   // TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(56.0);

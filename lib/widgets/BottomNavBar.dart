@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../utils/constants.dart';
+import '../utils/Constants.dart';
 
-class MyBottomNavBar extends StatefulWidget {
-  const MyBottomNavBar({super.key});
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({super.key});
 
   @override
-  State<MyBottomNavBar> createState() => _MyBottomNavBarState();
+  State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _MyBottomNavBarState extends State<MyBottomNavBar> {
+class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedTabIndex = 0;
 
   @override
