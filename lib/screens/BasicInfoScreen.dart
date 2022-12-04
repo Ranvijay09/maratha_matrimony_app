@@ -231,9 +231,9 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                                 onTap: () async {
                                   DateTime? date = await showDatePicker(
                                     context: context,
-                                    initialDate: _today,
+                                    initialDate: DateTime(_today.year - 21),
                                     firstDate: DateTime(_today.year - 100),
-                                    lastDate: _today,
+                                    lastDate: DateTime(_today.year - 21),
                                   );
                                   if (date != null) {
                                     _selectedDate = date;
