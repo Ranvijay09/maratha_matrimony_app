@@ -343,6 +343,15 @@ class Database {
     required String otherUserUid,
   }) async {
     bool success = true;
+
+    DocumentSnapshot snap1 = await db
+        .collection("users")
+        .doc(userUid)
+        .collection("chats")
+        .doc(otherUserUid)
+        .get();
+    if (snap1.exists) return success;
+
     await db
         .collection("users")
         .doc(userUid)
