@@ -92,7 +92,7 @@ class UserModel {
       spouseOccupation: doc["spouseOccupation"],
       spouseDietPreference: doc["spouseDietPreference"],
       spouseAnnualIncome: doc["spouseAnnualIncome"],
-      spouseAgeDifference: doc["spouseAgeDifference"].toInt() ?? 0,
+      spouseAgeDifference: doc["spouseAgeDifference"],
       spouseMaritalStatus: doc["spouseMaritalStatus"],
       spouseComplexion: doc["spouseComplexion"],
       spouseBodyType: doc["spouseBodyType"],
@@ -101,8 +101,8 @@ class UserModel {
       spouseOtherExpectations: doc["spouseOtherExpectations"],
 
       //physical attributes
-      height: doc["height"].toInt() ?? 0,
-      weight: doc["weight"].toInt() ?? 0,
+      height: doc["height"],
+      weight: doc["weight"],
       bloodGroup: doc["bloodGroup"],
       complexion: doc["complexion"],
       physicalStatus: doc["physicalStatus"],
@@ -169,7 +169,7 @@ class UserModel {
           spouseOccupation: doc["spouseOccupation"],
           spouseDietPreference: doc["spouseDietPreference"],
           spouseAnnualIncome: doc["spouseAnnualIncome"],
-          spouseAgeDifference: doc["spouseAgeDifference"].toInt() ?? 0,
+          spouseAgeDifference: doc["spouseAgeDifference"],
           spouseMaritalStatus: doc["spouseMaritalStatus"],
           spouseComplexion: doc["spouseComplexion"],
           spouseBodyType: doc["spouseBodyType"],
@@ -178,8 +178,8 @@ class UserModel {
           spouseOtherExpectations: doc["spouseOtherExpectations"],
 
           //physical attributes
-          height: doc["height"].toInt() ?? 0,
-          weight: doc["weight"].toInt() ?? 0,
+          height: doc["height"],
+          weight: doc["weight"],
           bloodGroup: doc["bloodGroup"],
           complexion: doc["complexion"],
           physicalStatus: doc["physicalStatus"],

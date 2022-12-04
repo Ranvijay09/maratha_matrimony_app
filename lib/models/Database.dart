@@ -225,8 +225,8 @@ class Database {
   }) async {
     bool isSuccess = true;
     await db.collection("users").doc(uid).update({
-      "height": height,
-      "weight": weight,
+      "height": int.parse(height),
+      "weight": int.parse(weight),
       "bloodGroup": bloodGroup,
       "complexion": complexion,
       "physicalStatus": physicalStatus,
