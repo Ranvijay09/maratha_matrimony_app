@@ -234,7 +234,16 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                           MyUser curUser = snap.data!;
                                           return UserCard(
                                               connectBtnText: 'Accept Request',
-                                              pressConnectBtn: () {},
+                                              pressConnectBtn: () async {
+                                                await Database()
+                                                    .acceptConnectReq(
+                                                        userUid: _user!.uid,
+                                                        otherUserUid:
+                                                            _pendingRequestsIds[
+                                                                index]);
+                                                _pendingRequestsIds.remove(
+                                                    _pendingRequestsIds[index]);
+                                              },
                                               hideBookmarkBtn: true,
                                               user: curUser,
                                               pressBookmarkBtn: () async {
@@ -293,7 +302,16 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                           return UserCard(
                                               connectBtnText: 'Cancel Request',
                                               connectBtncolor: Colors.red,
-                                              pressConnectBtn: () {},
+                                              pressConnectBtn: () async {
+                                                await Database()
+                                                    .cancelConnectReq(
+                                                        userUid: _user!.uid,
+                                                        otherUserUid:
+                                                            _sentRequestsIds[
+                                                                index]);
+                                                _sentRequestsIds.remove(
+                                                    _sentRequestsIds[index]);
+                                              },
                                               hideBookmarkBtn: true,
                                               user: curUser,
                                               pressBookmarkBtn: () async {

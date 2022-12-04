@@ -289,19 +289,22 @@ class UserCard extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 2),
-                    child: Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: connectBtncolor,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          connectBtnText,
-                          style: TextStyle(
-                            color: COLOR_WHITE,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                    child: GestureDetector(
+                      onTap: pressConnectBtn,
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: connectBtncolor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: Text(
+                            connectBtnText,
+                            style: TextStyle(
+                              color: COLOR_WHITE,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ),
