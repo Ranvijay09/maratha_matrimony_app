@@ -42,23 +42,22 @@ class UserCard extends StatelessWidget {
           Container(
             width: size.width / 2 - 15,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  user.firstName + ' ' + user.lastName,
-                  style: TextStyle(
-                      color: COLOR_BLACK,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  height: ((size.width / 2) - 15) * 1.1,
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        user.firstName + ' ' + user.lastName,
+                        style: TextStyle(
+                            color: COLOR_BLACK,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
                           Icon(
@@ -91,7 +90,7 @@ class UserCard extends StatelessWidget {
                             width: 5,
                           ),
                           Text(
-                            user.district + ' ' + user.state,
+                            user.district,
                             style: TextStyle(
                               fontSize: 12,
                               color: COLOR_BLACK,
@@ -191,7 +190,6 @@ class UserCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.only(right: 2),
                   child: GestureDetector(
@@ -224,6 +222,7 @@ class UserCard extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 5),
               ],
             ),
           ),
@@ -233,40 +232,45 @@ class UserCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(user.weight.toString() + 'kg | '),
-                      Text(user.height.toString() + 'cm'),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      IconButton(
-                        onPressed: pressBookmarkBtn,
-                        icon: Icon(
-                          FontAwesomeIcons.solidBookmark,
-                          size: 20,
-                          color: bookmarked
-                              ? COLOR_BLACK
-                              : COLOR_BLACK.withOpacity(.4),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(user.weight.toString() + 'kg | '),
+                            Text(user.height.toString() + 'cm'),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            IconButton(
+                              onPressed: pressBookmarkBtn,
+                              icon: Icon(
+                                FontAwesomeIcons.solidBookmark,
+                                size: 20,
+                                color: bookmarked
+                                    ? COLOR_BLACK
+                                    : COLOR_BLACK.withOpacity(.4),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    height: ((size.width / 2) - 15) * 1.1,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(user.photoUrl),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          height: ((size.width / 2) - 15) * 1.1,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(user.photoUrl),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.only(left: 2),
                     child: Container(
@@ -286,6 +290,9 @@ class UserCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 5,
                   ),
                 ]),
           ),
