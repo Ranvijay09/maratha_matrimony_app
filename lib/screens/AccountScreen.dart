@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +38,18 @@ class _AccountScreenState extends State<AccountScreen> {
         child: Column(
           children: [
             ProfilePic(
-                imagePath: _user!.photoURL,
-                onBtnClick: () async => {
-                      image = await ImagePicker()
-                          .pickImage(source: ImageSource.gallery)
-                    }),
+                imagePath: image == null ? _user!.photoURL : image!.path,
+                onBtnClick: () async {
+                  var img = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
+
+                  setState(() {
+                    image = img;
+                  });
+                  if (image != null) {
+                    UserModel.updateProfilePhoto(File(image!.path), _user!);
+                  }
+                }),
             SizedBox(height: 20),
             ProfileMenu(
               text: "My Profile Info",

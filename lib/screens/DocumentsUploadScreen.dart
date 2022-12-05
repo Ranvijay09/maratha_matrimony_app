@@ -78,10 +78,15 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
                       ProfilePic(
                           imagePath:
                               image == null ? _user!.photoURL : image!.path,
-                          onBtnClick: () async => {
-                                image = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery)
-                              }),
+                          onBtnClick: () async {
+                            var img = await ImagePicker()
+                                .pickImage(source: ImageSource.gallery);
+
+                            print(img?.path);
+                            setState(() {
+                              image = img;
+                            });
+                          }),
                       SizedBox(height: 50),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),

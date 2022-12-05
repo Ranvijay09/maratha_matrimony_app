@@ -43,7 +43,7 @@ class ProfilePic extends StatelessWidget {
                   primary: Colors.white,
                   backgroundColor: Color(0xFFF5F6F9),
                 ),
-                onPressed: () {},
+                onPressed: onBtnClick,
                 child: Icon(
                   FontAwesomeIcons.pen,
                   color: COLOR_BLACK,
