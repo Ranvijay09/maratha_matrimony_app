@@ -54,19 +54,6 @@ class _SocioReligiousAttributesScreenState
     super.dispose();
   }
 
-  Future<List> _getStatesData() async {
-    final String response = await rootBundle.loadString("json/states.json");
-    final data = await json.decode(response);
-    return data["states"];
-  }
-
-  Future _getDistrictsData(int stateId) async {
-    if (stateId <= 0) return [];
-    final String response = await rootBundle.loadString("json/districts.json");
-    final data = await json.decode(response);
-    return (data["districts"][stateId - 1]["districts"]);
-  }
-
   @override
   Widget build(BuildContext context) {
     _user = Provider.of<User?>(context);
@@ -731,5 +718,18 @@ class _SocioReligiousAttributesScreenState
           )
           .catchError((error) => print("something is wrong. $error"));
     }
+  }
+
+  Future<List> _getStatesData() async {
+    final String response = await rootBundle.loadString("json/states.json");
+    final data = await json.decode(response);
+    return data["states"];
+  }
+
+  Future _getDistrictsData(int stateId) async {
+    if (stateId <= 0) return [];
+    final String response = await rootBundle.loadString("json/districts.json");
+    final data = await json.decode(response);
+    return (data["districts"][stateId - 1]["districts"]);
   }
 }
