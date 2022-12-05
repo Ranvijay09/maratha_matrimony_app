@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maratha_matrimony_app/models/MyUser.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
@@ -29,9 +31,22 @@ class ChatCard extends StatelessWidget {
             horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.75),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundImage: NetworkImage(user.photoUrl),
+            ClipOval(
+              child: Material(
+                color: Colors.white,
+                child: CachedNetworkImage(
+                  imageUrl: user.photoUrl,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                    value: downloadProgress.progress,
+                  ),
+                  errorWidget: (context, url, error) =>
+                      Icon(FontAwesomeIcons.spinner),
+                  fit: BoxFit.cover,
+                  width: 50,
+                  height: 50,
+                ),
+              ),
             ),
             Expanded(
               child: Padding(
