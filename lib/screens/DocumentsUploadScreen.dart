@@ -77,7 +77,7 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
                       ),
                       ProfilePic(
                           imagePath:
-                              image == null ? _user!.photoURL : image!.path,
+                              image != null ? image!.path : _user!.photoURL!,
                           onBtnClick: () async {
                             var img = await ImagePicker()
                                 .pickImage(source: ImageSource.gallery);
@@ -166,14 +166,16 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
   saveProfilePicAndDocumentToDB() async {
     if (image != null) {
       await UserModel.updateProfilePhoto(File(image!.path), _user!);
-      await UserModel.updateVerficationDoc(selectedFile!, _user!);
-      Navigator.of(context)
-          .push(
-            MaterialPageRoute(
-              builder: (context) => ScreenManager(),
-            ),
-          )
-          .catchError((error) => print("something is wrong. $error"));
+      if (selectedFile != null) {
+        await UserModel.updateVerficationDoc(selectedFile!, _user!);
+      }
     }
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => ScreenManager(),
+          ),
+        )
+        .catchError((error) => print("something is wrong. $error"));
   }
 }

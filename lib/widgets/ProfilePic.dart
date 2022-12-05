@@ -2,13 +2,14 @@
 
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 
 class ProfilePic extends StatelessWidget {
-  final String? imagePath;
+  final String imagePath;
   final VoidCallback onBtnClick;
   const ProfilePic({
     Key? key,
@@ -25,11 +26,23 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(imagePath!),
+          ClipOval(
+            child: Material(
+              color: Colors.white,
+              child: CachedNetworkImage(
+                imageUrl: imagePath,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(
+                  value: downloadProgress.progress,
+                ),
+                errorWidget: (context, url, error) =>
+                    Icon(FontAwesomeIcons.spinner),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           Positioned(
-            right: 15,
+            right: 25,
             bottom: 0,
             child: SizedBox(
               height: 50,

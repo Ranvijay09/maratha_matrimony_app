@@ -2,7 +2,7 @@
     package="com.example.maratha_matrimony_app">
    <application
         android:requestLegacyExternalStorage="true"
-        android:label="maratha_matrimony_app"
+        android:label="SoulSaathi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

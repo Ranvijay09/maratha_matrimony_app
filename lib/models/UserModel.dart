@@ -11,8 +11,7 @@ import 'package:maratha_matrimony_app/models/MyUser.dart';
 
 class UserModel {
   static String defaultPhotoUrl =
-      "https://firebasestorage.googleapis.com/v0/b/maratha-matrimony-app.appspot.com/o/default-avatar-profile-icon-social-media-user-vector-image-icon-default-avatar-profile-icon-social-media-user-vector-image-209162840.jpg?alt=media&token=2dadb52e-7b9c-4b15-977f-284eddac313c";
-
+      "https://firebasestorage.googleapis.com/v0/b/maratha-matrimony-app.appspot.com/o/default-avatar-profile-icon.jpg?alt=media&token=0dc370d1-907e-4c9a-b1d1-1e7a69528e92";
   static FirebaseStorage storage = FirebaseStorage.instance;
   static Future<bool> updateProfilePhoto(File file, User user) async {
     bool success = true;
