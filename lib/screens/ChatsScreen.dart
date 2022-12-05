@@ -58,42 +58,45 @@ class _ChatsScreenState extends State<ChatsScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                  kDefaultPadding, 0, kDefaultPadding, kDefaultPadding),
-              color: kPrimaryColor,
-              child: Row(
-                children: <Widget>[
-                  FillOutlineButton(
-                    press: () {
-                      setState(() {
-                        _selectedChatsScreenTab = 1;
-                      });
-                    },
-                    text: "All Chats",
-                    isFilled: _selectedChatsScreenTab == 1,
-                  ),
-                  SizedBox(width: kDefaultPadding - 5),
-                  FillOutlineButton(
-                    press: () {
-                      setState(() {
-                        _selectedChatsScreenTab = 2;
-                      });
-                    },
-                    text: "New Requests",
-                    isFilled: _selectedChatsScreenTab == 2,
-                  ),
-                  SizedBox(width: kDefaultPadding - 5),
-                  FillOutlineButton(
-                    press: () {
-                      setState(() {
-                        _selectedChatsScreenTab = 3;
-                      });
-                    },
-                    text: "Sent Requests",
-                    isFilled: _selectedChatsScreenTab == 3,
-                  ),
-                ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                padding: EdgeInsets.fromLTRB(
+                    kDefaultPadding, 0, kDefaultPadding, kDefaultPadding),
+                color: kPrimaryColor,
+                child: Row(
+                  children: <Widget>[
+                    FillOutlineButton(
+                      press: () {
+                        setState(() {
+                          _selectedChatsScreenTab = 1;
+                        });
+                      },
+                      text: "All Chats",
+                      isFilled: _selectedChatsScreenTab == 1,
+                    ),
+                    SizedBox(width: kDefaultPadding),
+                    FillOutlineButton(
+                      press: () {
+                        setState(() {
+                          _selectedChatsScreenTab = 2;
+                        });
+                      },
+                      text: "New Requests",
+                      isFilled: _selectedChatsScreenTab == 2,
+                    ),
+                    SizedBox(width: kDefaultPadding),
+                    FillOutlineButton(
+                      press: () {
+                        setState(() {
+                          _selectedChatsScreenTab = 3;
+                        });
+                      },
+                      text: "Sent Requests",
+                      isFilled: _selectedChatsScreenTab == 3,
+                    ),
+                  ],
+                ),
               ),
             ),
             _selectedChatsScreenTab == 1
