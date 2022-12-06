@@ -60,7 +60,7 @@ class UserCard extends StatelessWidget {
                             color: COLOR_BLACK,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(
