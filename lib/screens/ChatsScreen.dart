@@ -174,13 +174,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                               user: curUser,
                                               lastMessage: latestMsg,
                                               read: read,
-                                              press: () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const MessagesScreen(),
-                                                ),
-                                              ),
+                                              press: () {},
+                                              //   press: () => Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           const MessagesScreen(),
+                                              //     ),
+                                              //   ),
                                             );
                                           } else {
                                             return ListTile(
@@ -227,6 +228,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                         if (snap.hasData) {
                                           MyUser curUser = snap.data!;
                                           return UserCard(
+                                            connectBtncolor: Color.fromARGB(
+                                                255, 80, 191, 83),
                                             connectBtnText: 'Accept Request',
                                             pressConnectBtn: () async {
                                               await Database().acceptConnectReq(

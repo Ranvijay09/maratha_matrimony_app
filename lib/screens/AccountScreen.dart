@@ -49,6 +49,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     image = img;
                   });
                   if (image != null) {
+                    showSnackBar(
+                        "It'll take some time to update your profile photo on screen");
                     UserModel.updateProfilePhoto(File(image!.path), _user!)
                         .then((value) => image = null);
                   }
@@ -78,5 +80,13 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
       )),
     );
+  }
+
+  void showSnackBar(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      padding: EdgeInsets.all(20),
+      behavior: SnackBarBehavior.floating,
+    ));
   }
 }

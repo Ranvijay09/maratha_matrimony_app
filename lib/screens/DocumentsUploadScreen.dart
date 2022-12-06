@@ -90,6 +90,8 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
                                 image = img;
                               });
                               if (image != null) {
+                                showSnackBar(
+                                    "It'll take some time to update your profile photo on screen");
                                 UserModel.updateProfilePhoto(
                                         File(image!.path), _user!)
                                     .then((value) => setState(() {
@@ -178,19 +180,34 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
 
   saveProfilePicAndDocumentToDB() async {
     isLoading = true;
-    if (image != null) {
+    if (_user?.photoURL != UserModel.defaultPhotoUrl) {
       if (selectedFile != null) {
         await UserModel.updateVerficationDoc(selectedFile!, _user!);
         isLoading = false;
+        _auth?.signOut();
+        Navigator.of(context)
+            .push(
+              MaterialPageRoute(
+                builder: (context) => ScreenManager(),
+              ),
+            )
+            .catchError((error) => print("something is wrong. $error"));
+      } else {
+        showSnackBar(
+            "Upload any relevant document for your profile verification!");
+        isLoading = false;
       }
-      _auth?.signOut();
-      Navigator.of(context)
-          .push(
-            MaterialPageRoute(
-              builder: (context) => ScreenManager(),
-            ),
-          )
-          .catchError((error) => print("something is wrong. $error"));
+    } else {
+      showSnackBar("Upload your image first!");
+      isLoading = false;
     }
+  }
+
+  void showSnackBar(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      padding: EdgeInsets.all(20),
+      behavior: SnackBarBehavior.floating,
+    ));
   }
 }
