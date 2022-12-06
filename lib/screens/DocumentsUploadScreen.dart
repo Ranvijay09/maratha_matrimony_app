@@ -39,132 +39,137 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
   Widget build(BuildContext context) {
     _user = Provider.of<User?>(context);
     _auth = Provider.of<AuthService>(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[300],
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              FontAwesomeIcons.chevronLeft,
-              size: 20,
-            ),
-          ),
-          foregroundColor: COLOR_BLACK,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+        child: Scaffold(
           backgroundColor: Colors.grey[300],
-          title: Text(
-            'Photo & Document',
-            style: TextStyle(
-              fontSize: 20,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                FontAwesomeIcons.chevronLeft,
+                size: 20,
+              ),
             ),
+            foregroundColor: COLOR_BLACK,
+            backgroundColor: Colors.grey[300],
+            title: Text(
+              'Photo & Document',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            centerTitle: true,
           ),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 50,
-                      ),
-                      ProfilePic(
-                          imagePath:
-                              image != null ? image!.path : _user!.photoURL!,
-                          onBtnClick: () async {
-                            var img = await ImagePicker()
-                                .pickImage(source: ImageSource.gallery);
+          body: Center(
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        ProfilePic(
+                            imagePath:
+                                image != null ? image!.path : _user!.photoURL!,
+                            onBtnClick: () async {
+                              var img = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
 
-                            print(img?.path);
-                            setState(() {
-                              image = img;
-                            });
-                            if (image != null) {
-                              UserModel.updateProfilePhoto(
-                                      File(image!.path), _user!)
-                                  .then((value) => setState(() {
-                                        image = null;
-                                      }));
-                            }
-                          }),
-                      SizedBox(height: 50),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20.0, right: 10),
-                            child: TextFormField(
-                              validator: (val) {
-                                if (val!.isEmpty) {
-                                  return "Please upload verification document";
-                                }
-                                return null;
-                              },
-                              controller: _docController,
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Verification Document*',
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
+                              print(img?.path);
+                              setState(() {
+                                image = img;
+                              });
+                              if (image != null) {
+                                UserModel.updateProfilePhoto(
+                                        File(image!.path), _user!)
+                                    .then((value) => setState(() {
+                                          image = null;
+                                        }));
+                              }
+                            }),
+                        SizedBox(height: 50),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 10),
+                              child: TextFormField(
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return "Please upload verification document";
+                                  }
+                                  return null;
+                                },
+                                controller: _docController,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Verification Document*',
+                                  hintStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  suffixIcon: Icon(
+                                    FontAwesomeIcons.upload,
+                                    size: 20,
+                                    color: COLOR_BLACK,
+                                  ),
                                 ),
-                                suffixIcon: Icon(
-                                  FontAwesomeIcons.upload,
-                                  size: 20,
-                                  color: COLOR_BLACK,
-                                ),
+                                style: TextStyle(fontSize: 15),
+                                onTap: () async {
+                                  var result =
+                                      await FilePicker.platform.pickFiles();
+
+                                  if (result != null) {
+                                    selectedFile =
+                                        File(result.files.first.path!);
+                                    _docController.text =
+                                        result.files.first.name;
+                                  }
+                                },
                               ),
-                              style: TextStyle(fontSize: 15),
-                              onTap: () async {
-                                var result =
-                                    await FilePicker.platform.pickFiles();
-
-                                if (result != null) {
-                                  selectedFile = File(result.files.first.path!);
-                                  _docController.text = result.files.first.name;
-                                }
-                              },
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                    ],
+                        SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              ClipRRect(
-                child: MaterialButton(
-                  onPressed: saveProfilePicAndDocumentToDB,
-                  minWidth: double.infinity,
-                  height: 60,
-                  color: COLOR_ORANGE,
-                  child: isLoading
-                      ? CircularProgressIndicator(color: Colors.white)
-                      : Text(
-                          "Continue",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                ClipRRect(
+                  child: MaterialButton(
+                    onPressed: saveProfilePicAndDocumentToDB,
+                    minWidth: double.infinity,
+                    height: 60,
+                    color: COLOR_ORANGE,
+                    child: isLoading
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            "Continue",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

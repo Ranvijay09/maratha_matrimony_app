@@ -31,81 +31,84 @@ class _BottomNavControllerState extends State<BottomNavController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _selectedTabIndex == 2
-            ? chatAppBar()
-            : TopAppBar(tab: _selectedTabIndex),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(
-            left: kDefaultPadding * 2,
-            right: kDefaultPadding * 2,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: _selectedTabIndex == 2
+              ? chatAppBar()
+              : TopAppBar(tab: _selectedTabIndex),
+          bottomNavigationBar: Container(
+            padding: const EdgeInsets.only(
+              left: kDefaultPadding * 2,
+              right: kDefaultPadding * 2,
+            ),
+            height: 56,
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedTabIndex = 0;
+                    });
+                  },
+                  icon: Icon(
+                    FontAwesomeIcons.userGroup,
+                    size: 20,
+                    color: _selectedTabIndex == 0
+                        ? COLOR_ORANGE
+                        : COLOR_BLACK.withOpacity(.4),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedTabIndex = 1;
+                    });
+                  },
+                  icon: Icon(
+                    FontAwesomeIcons.solidBookmark,
+                    size: 20,
+                    color: _selectedTabIndex == 1
+                        ? COLOR_ORANGE
+                        : COLOR_BLACK.withOpacity(.4),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedTabIndex = 2;
+                    });
+                  },
+                  icon: Icon(
+                    FontAwesomeIcons.solidComments,
+                    size: 20,
+                    color: _selectedTabIndex == 2
+                        ? COLOR_ORANGE
+                        : COLOR_BLACK.withOpacity(.4),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedTabIndex = 3;
+                    });
+                  },
+                  icon: Icon(
+                    FontAwesomeIcons.solidUser,
+                    size: 20,
+                    color: _selectedTabIndex == 3
+                        ? COLOR_ORANGE
+                        : COLOR_BLACK.withOpacity(.4),
+                  ),
+                ),
+              ],
+            ),
           ),
-          height: 56,
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _selectedTabIndex = 0;
-                  });
-                },
-                icon: Icon(
-                  FontAwesomeIcons.userGroup,
-                  size: 20,
-                  color: _selectedTabIndex == 0
-                      ? COLOR_ORANGE
-                      : COLOR_BLACK.withOpacity(.4),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _selectedTabIndex = 1;
-                  });
-                },
-                icon: Icon(
-                  FontAwesomeIcons.solidBookmark,
-                  size: 20,
-                  color: _selectedTabIndex == 1
-                      ? COLOR_ORANGE
-                      : COLOR_BLACK.withOpacity(.4),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _selectedTabIndex = 2;
-                  });
-                },
-                icon: Icon(
-                  FontAwesomeIcons.solidComments,
-                  size: 20,
-                  color: _selectedTabIndex == 2
-                      ? COLOR_ORANGE
-                      : COLOR_BLACK.withOpacity(.4),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _selectedTabIndex = 3;
-                  });
-                },
-                icon: Icon(
-                  FontAwesomeIcons.solidUser,
-                  size: 20,
-                  color: _selectedTabIndex == 3
-                      ? COLOR_ORANGE
-                      : COLOR_BLACK.withOpacity(.4),
-                ),
-              ),
-            ],
-          ),
+          body: _pages[_selectedTabIndex],
         ),
-        body: _pages[_selectedTabIndex],
       ),
     );
   }

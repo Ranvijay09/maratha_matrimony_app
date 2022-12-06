@@ -125,205 +125,213 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
     _auth = Provider.of<AuthService>(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[300],
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              FontAwesomeIcons.chevronLeft,
-              size: 20,
-            ),
-          ),
-          foregroundColor: COLOR_BLACK,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+        child: Scaffold(
           backgroundColor: Colors.grey[300],
-          title: Text(
-            'Sign Up',
-            style: TextStyle(
-              fontSize: 20,
+          appBar: AppBar(
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                FontAwesomeIcons.chevronLeft,
+                size: 20,
+              ),
             ),
+            foregroundColor: COLOR_BLACK,
+            backgroundColor: Colors.grey[300],
+            title: Text(
+              'Sign Up',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            centerTitle: true,
           ),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.20),
-                        Image.asset(
-                          'assets/images/logo.png',
-                          width: 200,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Soul',
-                              style: GoogleFonts.amita(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 40,
-                                color: COLOR_BLACK,
-                              ),
-                            ),
-                            Text(
-                              'Saathi',
-                              style: GoogleFonts.amita(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 40,
-                                color: COLOR_ORANGE,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: TextFormField(
-                                validator: (val) => _validateEmail(val),
-                                controller: _emailController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Email',
-                                  hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+          body: Center(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.20),
+                          Image.asset(
+                            'assets/images/logo.png',
+                            width: 200,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Soul',
+                                style: GoogleFonts.amita(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40,
+                                  color: COLOR_BLACK,
                                 ),
-                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                'Saathi',
+                                style: GoogleFonts.amita(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40,
+                                  color: COLOR_ORANGE,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: TextFormField(
+                                  validator: (val) => _validateEmail(val),
+                                  controller: _emailController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: TextFormField(
-                                validator: (val) => _validatePhoneNo(val),
-                                controller: _phoneController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Phone Number',
-                                  hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
+                          SizedBox(height: 10),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: TextFormField(
+                                  validator: (val) => _validatePhoneNo(val),
+                                  controller: _phoneController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Phone Number',
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
+                                  style: TextStyle(fontSize: 15),
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
                                 ),
-                                style: TextStyle(fontSize: 15),
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: TextFormField(
-                                obscureText: true,
-                                validator: (val) => _validatePassword(val),
-                                controller: _passwordController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Password',
-                                  hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
+                          SizedBox(height: 10),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: TextFormField(
+                                  obscureText: true,
+                                  validator: (val) => _validatePassword(val),
+                                  controller: _passwordController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Password',
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
+                                  style: TextStyle(fontSize: 15),
                                 ),
-                                style: TextStyle(fontSize: 15),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: TextFormField(
-                                obscureText: true,
-                                validator: (val) =>
-                                    _validateConfirmPassword(val),
-                                controller: _confirmPasswordController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Confirm Password',
-                                  hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
+                          SizedBox(height: 10),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: TextFormField(
+                                  obscureText: true,
+                                  validator: (val) =>
+                                      _validateConfirmPassword(val),
+                                  controller: _confirmPasswordController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Confirm Password',
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
+                                  style: TextStyle(fontSize: 15),
                                 ),
-                                style: TextStyle(fontSize: 15),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                      ],
+                          SizedBox(height: 20),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                ClipRRect(
-                  child: MaterialButton(
-                    onPressed: _register,
-                    minWidth: double.infinity,
-                    height: 60,
-                    color: COLOR_ORANGE,
-                    child: (_auth?.isLoading ?? false)
-                        ? CircularProgressIndicator(color: Colors.white)
-                        : Text(
-                            "Continue",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                  ClipRRect(
+                    child: MaterialButton(
+                      onPressed: _register,
+                      minWidth: double.infinity,
+                      height: 60,
+                      color: COLOR_ORANGE,
+                      child: (_auth?.isLoading ?? false)
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "Continue",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

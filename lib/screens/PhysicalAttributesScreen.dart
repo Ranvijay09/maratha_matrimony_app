@@ -54,673 +54,685 @@ class _PhysicalAttributesScreenState extends State<PhysicalAttributesScreen> {
   Widget build(BuildContext context) {
     _user = Provider.of<User?>(context);
     _auth = Provider.of<AuthService>(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[300],
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          foregroundColor: COLOR_BLACK,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+        child: Scaffold(
           backgroundColor: Colors.grey[300],
-          title: Text(
-            'Physical Attributes',
-            style: TextStyle(
-              fontSize: 20,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            foregroundColor: COLOR_BLACK,
+            backgroundColor: Colors.grey[300],
+            title: Text(
+              'Physical Attributes',
+              style: TextStyle(
+                fontSize: 20,
+              ),
             ),
+            centerTitle: true,
           ),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: TextFormField(
-                                validator: (val) {
-                                  if (val!.isEmpty) {
-                                    return "Please enter your height";
+          body: Center(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: TextFormField(
+                                  validator: (val) {
+                                    if (val!.isEmpty) {
+                                      return "Please enter your height";
+                                    }
+                                    return null;
+                                  },
+                                  controller: _heightController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Height in cm*',
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                  keyboardType: TextInputType.text,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: TextFormField(
+                                  validator: (val) {
+                                    if (val!.isEmpty) {
+                                      return "Please enter your weight";
+                                    }
+                                    return null;
+                                  },
+                                  controller: _weightController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Weight in kg*',
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                  keyboardType: TextInputType.text,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField2(
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                isExpanded: true,
+                                hint: Text(
+                                  'Blood Group*',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: COLOR_BLACK,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                items: [
+                                  'A+',
+                                  'A-',
+                                  'B+',
+                                  'B-',
+                                  'AB+',
+                                  'AB-',
+                                  'O+',
+                                  'O-',
+                                ]
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: COLOR_BLACK,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: _selectedBloodGroup,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select your blood group.';
                                   }
                                   return null;
                                 },
-                                controller: _heightController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Height in cm*',
-                                  hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedBloodGroup = value as String;
+                                  });
+                                },
+                                icon: const Icon(
+                                  FontAwesomeIcons.caretDown,
+                                  color: COLOR_BLACK,
                                 ),
-                                style: TextStyle(fontSize: 15),
-                                keyboardType: TextInputType.text,
+                                iconSize: 20,
+                                iconEnabledColor: COLOR_BLACK,
+                                iconDisabledColor: Colors.grey,
+                                buttonHeight: 50,
+                                buttonPadding: EdgeInsets.only(right: 20.0),
+                                buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.white),
+                                  color: Colors.grey[100],
+                                ),
+                                itemHeight: 40,
+                                dropdownMaxHeight: 200,
+                                dropdownPadding:
+                                    EdgeInsets.symmetric(horizontal: 25.0),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey[100],
+                                ),
+                                dropdownElevation: 8,
+                                scrollbarRadius: const Radius.circular(40),
+                                scrollbarThickness: 6,
+                                scrollbarAlwaysShow: true,
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: TextFormField(
-                                validator: (val) {
-                                  if (val!.isEmpty) {
-                                    return "Please enter your weight";
+                          SizedBox(height: 20),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField2(
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                isExpanded: true,
+                                hint: Text(
+                                  'Complexion*',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: COLOR_BLACK,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                items: [
+                                  'Very Fair',
+                                  'Fair',
+                                  'Wheatish',
+                                  'Wheatish Medium',
+                                  'Wheatish Brown',
+                                  'Dark'
+                                ]
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: COLOR_BLACK,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: _selectedComplexion,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select your complexion.';
                                   }
                                   return null;
                                 },
-                                controller: _weightController,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedComplexion = value as String;
+                                  });
+                                },
+                                icon: const Icon(
+                                  FontAwesomeIcons.caretDown,
+                                  color: COLOR_BLACK,
+                                ),
+                                iconSize: 20,
+                                iconEnabledColor: COLOR_BLACK,
+                                iconDisabledColor: Colors.grey,
+                                buttonHeight: 50,
+                                buttonPadding: EdgeInsets.only(right: 20.0),
+                                buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.white),
+                                  color: Colors.grey[100],
+                                ),
+                                itemHeight: 40,
+                                dropdownMaxHeight: 200,
+                                dropdownPadding:
+                                    EdgeInsets.symmetric(horizontal: 25.0),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey[100],
+                                ),
+                                dropdownElevation: 8,
+                                scrollbarRadius: const Radius.circular(40),
+                                scrollbarThickness: 6,
+                                scrollbarAlwaysShow: true,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField2(
                                 decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Weight in kg*',
-                                  hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
                                 ),
-                                style: TextStyle(fontSize: 15),
-                                keyboardType: TextInputType.text,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButtonFormField2(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                                isExpanded: true,
+                                hint: Text(
+                                  'Physical Status*',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: COLOR_BLACK,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                              isExpanded: true,
-                              hint: Text(
-                                'Blood Group*',
-                                style: TextStyle(
-                                  fontSize: 15,
+                                items: ['Normal', 'Physically Challanged']
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: COLOR_BLACK,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: _physicalStatus,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select physical status.';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _physicalStatus = value as String;
+                                  });
+                                },
+                                icon: const Icon(
+                                  FontAwesomeIcons.caretDown,
                                   color: COLOR_BLACK,
                                 ),
-                                overflow: TextOverflow.ellipsis,
+                                iconSize: 20,
+                                iconEnabledColor: COLOR_BLACK,
+                                iconDisabledColor: Colors.grey,
+                                buttonHeight: 50,
+                                buttonPadding: EdgeInsets.only(right: 20.0),
+                                buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.white),
+                                  color: Colors.grey[100],
+                                ),
+                                itemHeight: 40,
+                                dropdownMaxHeight: 200,
+                                dropdownPadding:
+                                    EdgeInsets.symmetric(horizontal: 25.0),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey[100],
+                                ),
+                                dropdownElevation: 8,
+                                scrollbarRadius: const Radius.circular(40),
+                                scrollbarThickness: 6,
+                                scrollbarAlwaysShow: true,
                               ),
-                              items: [
-                                'A+',
-                                'A-',
-                                'B+',
-                                'B-',
-                                'AB+',
-                                'AB-',
-                                'O+',
-                                'O-',
-                              ]
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: COLOR_BLACK,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: _selectedBloodGroup,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Please select your blood group.';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedBloodGroup = value as String;
-                                });
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.caretDown,
-                                color: COLOR_BLACK,
-                              ),
-                              iconSize: 20,
-                              iconEnabledColor: COLOR_BLACK,
-                              iconDisabledColor: Colors.grey,
-                              buttonHeight: 50,
-                              buttonPadding: EdgeInsets.only(right: 20.0),
-                              buttonDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.white),
-                                color: Colors.grey[100],
-                              ),
-                              itemHeight: 40,
-                              dropdownMaxHeight: 200,
-                              dropdownPadding:
-                                  EdgeInsets.symmetric(horizontal: 25.0),
-                              dropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.grey[100],
-                              ),
-                              dropdownElevation: 8,
-                              scrollbarRadius: const Radius.circular(40),
-                              scrollbarThickness: 6,
-                              scrollbarAlwaysShow: true,
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButtonFormField2(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField2(
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                 ),
-                              ),
-                              isExpanded: true,
-                              hint: Text(
-                                'Complexion*',
-                                style: TextStyle(
-                                  fontSize: 15,
+                                isExpanded: true,
+                                hint: Text(
+                                  'Body Type*',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: COLOR_BLACK,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                items: ['Slim', 'Average', 'Athletic', 'Heavy']
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: COLOR_BLACK,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: _bodyType,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select your body type.';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _bodyType = value as String;
+                                  });
+                                },
+                                icon: const Icon(
+                                  FontAwesomeIcons.caretDown,
                                   color: COLOR_BLACK,
                                 ),
-                                overflow: TextOverflow.ellipsis,
+                                iconSize: 20,
+                                iconEnabledColor: COLOR_BLACK,
+                                iconDisabledColor: Colors.grey,
+                                buttonHeight: 50,
+                                buttonPadding: EdgeInsets.only(right: 20.0),
+                                buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.white),
+                                  color: Colors.grey[100],
+                                ),
+                                itemHeight: 40,
+                                dropdownMaxHeight: 200,
+                                dropdownPadding:
+                                    EdgeInsets.symmetric(horizontal: 25.0),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey[100],
+                                ),
+                                dropdownElevation: 8,
+                                scrollbarRadius: const Radius.circular(40),
+                                scrollbarThickness: 6,
+                                scrollbarAlwaysShow: true,
                               ),
-                              items: [
-                                'Very Fair',
-                                'Fair',
-                                'Wheatish',
-                                'Wheatish Medium',
-                                'Wheatish Brown',
-                                'Dark'
-                              ]
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: COLOR_BLACK,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: _selectedComplexion,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Please select your complexion.';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedComplexion = value as String;
-                                });
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.caretDown,
-                                color: COLOR_BLACK,
-                              ),
-                              iconSize: 20,
-                              iconEnabledColor: COLOR_BLACK,
-                              iconDisabledColor: Colors.grey,
-                              buttonHeight: 50,
-                              buttonPadding: EdgeInsets.only(right: 20.0),
-                              buttonDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.white),
-                                color: Colors.grey[100],
-                              ),
-                              itemHeight: 40,
-                              dropdownMaxHeight: 200,
-                              dropdownPadding:
-                                  EdgeInsets.symmetric(horizontal: 25.0),
-                              dropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.grey[100],
-                              ),
-                              dropdownElevation: 8,
-                              scrollbarRadius: const Radius.circular(40),
-                              scrollbarThickness: 6,
-                              scrollbarAlwaysShow: true,
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButtonFormField2(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField2(
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                 ),
-                              ),
-                              isExpanded: true,
-                              hint: Text(
-                                'Physical Status*',
-                                style: TextStyle(
-                                  fontSize: 15,
+                                isExpanded: true,
+                                hint: Text(
+                                  'Diet*',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: COLOR_BLACK,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                items: [
+                                  'Vegetarian',
+                                  'Eggetarian',
+                                  'Occasionally Non-Veg',
+                                  'Non-Vegetarian',
+                                  'Jain',
+                                  'Vegan'
+                                ]
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: COLOR_BLACK,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: _diet,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select your diet.';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _diet = value as String;
+                                  });
+                                },
+                                icon: const Icon(
+                                  FontAwesomeIcons.caretDown,
                                   color: COLOR_BLACK,
                                 ),
-                                overflow: TextOverflow.ellipsis,
+                                iconSize: 20,
+                                iconEnabledColor: COLOR_BLACK,
+                                iconDisabledColor: Colors.grey,
+                                buttonHeight: 50,
+                                buttonPadding: EdgeInsets.only(right: 20.0),
+                                buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.white),
+                                  color: Colors.grey[100],
+                                ),
+                                itemHeight: 40,
+                                dropdownMaxHeight: 200,
+                                dropdownPadding:
+                                    EdgeInsets.symmetric(horizontal: 25.0),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey[100],
+                                ),
+                                dropdownElevation: 8,
+                                scrollbarRadius: const Radius.circular(40),
+                                scrollbarThickness: 6,
+                                scrollbarAlwaysShow: true,
                               ),
-                              items: ['Normal', 'Physically Challanged']
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: COLOR_BLACK,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: _physicalStatus,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Please select physical status.';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _physicalStatus = value as String;
-                                });
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.caretDown,
-                                color: COLOR_BLACK,
-                              ),
-                              iconSize: 20,
-                              iconEnabledColor: COLOR_BLACK,
-                              iconDisabledColor: Colors.grey,
-                              buttonHeight: 50,
-                              buttonPadding: EdgeInsets.only(right: 20.0),
-                              buttonDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.white),
-                                color: Colors.grey[100],
-                              ),
-                              itemHeight: 40,
-                              dropdownMaxHeight: 200,
-                              dropdownPadding:
-                                  EdgeInsets.symmetric(horizontal: 25.0),
-                              dropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.grey[100],
-                              ),
-                              dropdownElevation: 8,
-                              scrollbarRadius: const Radius.circular(40),
-                              scrollbarThickness: 6,
-                              scrollbarAlwaysShow: true,
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButtonFormField2(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField2(
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                 ),
-                              ),
-                              isExpanded: true,
-                              hint: Text(
-                                'Body Type*',
-                                style: TextStyle(
-                                  fontSize: 15,
+                                isExpanded: true,
+                                hint: Text(
+                                  'Smoke*',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: COLOR_BLACK,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                items: ['Yes', 'No']
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: COLOR_BLACK,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: _smoke,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select smoking status.';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _smoke = value as String;
+                                  });
+                                },
+                                icon: const Icon(
+                                  FontAwesomeIcons.caretDown,
                                   color: COLOR_BLACK,
                                 ),
-                                overflow: TextOverflow.ellipsis,
+                                iconSize: 20,
+                                iconEnabledColor: COLOR_BLACK,
+                                iconDisabledColor: Colors.grey,
+                                buttonHeight: 50,
+                                buttonPadding: EdgeInsets.only(right: 20.0),
+                                buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.white),
+                                  color: Colors.grey[100],
+                                ),
+                                itemHeight: 40,
+                                dropdownMaxHeight: 200,
+                                dropdownPadding:
+                                    EdgeInsets.symmetric(horizontal: 25.0),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey[100],
+                                ),
+                                dropdownElevation: 8,
+                                scrollbarRadius: const Radius.circular(40),
+                                scrollbarThickness: 6,
+                                scrollbarAlwaysShow: true,
                               ),
-                              items: ['Slim', 'Average', 'Athletic', 'Heavy']
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: COLOR_BLACK,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: _bodyType,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Please select your body type.';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _bodyType = value as String;
-                                });
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.caretDown,
-                                color: COLOR_BLACK,
-                              ),
-                              iconSize: 20,
-                              iconEnabledColor: COLOR_BLACK,
-                              iconDisabledColor: Colors.grey,
-                              buttonHeight: 50,
-                              buttonPadding: EdgeInsets.only(right: 20.0),
-                              buttonDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.white),
-                                color: Colors.grey[100],
-                              ),
-                              itemHeight: 40,
-                              dropdownMaxHeight: 200,
-                              dropdownPadding:
-                                  EdgeInsets.symmetric(horizontal: 25.0),
-                              dropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.grey[100],
-                              ),
-                              dropdownElevation: 8,
-                              scrollbarRadius: const Radius.circular(40),
-                              scrollbarThickness: 6,
-                              scrollbarAlwaysShow: true,
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButtonFormField2(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField2(
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                 ),
-                              ),
-                              isExpanded: true,
-                              hint: Text(
-                                'Diet*',
-                                style: TextStyle(
-                                  fontSize: 15,
+                                isExpanded: true,
+                                hint: Text(
+                                  'Drink*',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: COLOR_BLACK,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                items: ['Yes', 'No']
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: COLOR_BLACK,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: _drink,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select physical status.';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _drink = value as String;
+                                  });
+                                },
+                                icon: const Icon(
+                                  FontAwesomeIcons.caretDown,
                                   color: COLOR_BLACK,
                                 ),
-                                overflow: TextOverflow.ellipsis,
+                                iconSize: 20,
+                                iconEnabledColor: COLOR_BLACK,
+                                iconDisabledColor: Colors.grey,
+                                buttonHeight: 50,
+                                buttonPadding: EdgeInsets.only(right: 20.0),
+                                buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.white),
+                                  color: Colors.grey[100],
+                                ),
+                                itemHeight: 40,
+                                dropdownMaxHeight: 200,
+                                dropdownPadding:
+                                    EdgeInsets.symmetric(horizontal: 25.0),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey[100],
+                                ),
+                                dropdownElevation: 8,
+                                scrollbarRadius: const Radius.circular(40),
+                                scrollbarThickness: 6,
+                                scrollbarAlwaysShow: true,
                               ),
-                              items: [
-                                'Vegetarian',
-                                'Eggetarian',
-                                'Occasionally Non-Veg',
-                                'Non-Vegetarian',
-                                'Jain',
-                                'Vegan'
-                              ]
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: COLOR_BLACK,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: _diet,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Please select your diet.';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _diet = value as String;
-                                });
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.caretDown,
-                                color: COLOR_BLACK,
-                              ),
-                              iconSize: 20,
-                              iconEnabledColor: COLOR_BLACK,
-                              iconDisabledColor: Colors.grey,
-                              buttonHeight: 50,
-                              buttonPadding: EdgeInsets.only(right: 20.0),
-                              buttonDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.white),
-                                color: Colors.grey[100],
-                              ),
-                              itemHeight: 40,
-                              dropdownMaxHeight: 200,
-                              dropdownPadding:
-                                  EdgeInsets.symmetric(horizontal: 25.0),
-                              dropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.grey[100],
-                              ),
-                              dropdownElevation: 8,
-                              scrollbarRadius: const Radius.circular(40),
-                              scrollbarThickness: 6,
-                              scrollbarAlwaysShow: true,
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButtonFormField2(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              isExpanded: true,
-                              hint: Text(
-                                'Smoke*',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: COLOR_BLACK,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              items: ['Yes', 'No']
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: COLOR_BLACK,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: _smoke,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Please select smoking status.';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _smoke = value as String;
-                                });
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.caretDown,
-                                color: COLOR_BLACK,
-                              ),
-                              iconSize: 20,
-                              iconEnabledColor: COLOR_BLACK,
-                              iconDisabledColor: Colors.grey,
-                              buttonHeight: 50,
-                              buttonPadding: EdgeInsets.only(right: 20.0),
-                              buttonDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.white),
-                                color: Colors.grey[100],
-                              ),
-                              itemHeight: 40,
-                              dropdownMaxHeight: 200,
-                              dropdownPadding:
-                                  EdgeInsets.symmetric(horizontal: 25.0),
-                              dropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.grey[100],
-                              ),
-                              dropdownElevation: 8,
-                              scrollbarRadius: const Radius.circular(40),
-                              scrollbarThickness: 6,
-                              scrollbarAlwaysShow: true,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButtonFormField2(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              isExpanded: true,
-                              hint: Text(
-                                'Drink*',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: COLOR_BLACK,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              items: ['Yes', 'No']
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: COLOR_BLACK,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: _drink,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Please select physical status.';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _drink = value as String;
-                                });
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.caretDown,
-                                color: COLOR_BLACK,
-                              ),
-                              iconSize: 20,
-                              iconEnabledColor: COLOR_BLACK,
-                              iconDisabledColor: Colors.grey,
-                              buttonHeight: 50,
-                              buttonPadding: EdgeInsets.only(right: 20.0),
-                              buttonDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.white),
-                                color: Colors.grey[100],
-                              ),
-                              itemHeight: 40,
-                              dropdownMaxHeight: 200,
-                              dropdownPadding:
-                                  EdgeInsets.symmetric(horizontal: 25.0),
-                              dropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.grey[100],
-                              ),
-                              dropdownElevation: 8,
-                              scrollbarRadius: const Radius.circular(40),
-                              scrollbarThickness: 6,
-                              scrollbarAlwaysShow: true,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15)
-                      ],
+                          SizedBox(height: 15)
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                ClipRRect(
-                  child: MaterialButton(
-                    onPressed: savePhysicalAttributesToDB,
-                    minWidth: double.infinity,
-                    height: 60,
-                    color: COLOR_ORANGE,
-                    child: (_auth?.isLoading ?? false)
-                        ? CircularProgressIndicator(color: Colors.white)
-                        : Text(
-                            "Continue",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                  ClipRRect(
+                    child: MaterialButton(
+                      onPressed: savePhysicalAttributesToDB,
+                      minWidth: double.infinity,
+                      height: 60,
+                      color: COLOR_ORANGE,
+                      child: (_auth?.isLoading ?? false)
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "Continue",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

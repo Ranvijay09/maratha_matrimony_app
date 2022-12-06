@@ -87,177 +87,180 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     _auth = Provider.of<AuthService>(context);
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/logo.png',
-                    width: 200,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Soul',
-                        style: GoogleFonts.amita(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                          color: COLOR_BLACK,
-                        ),
-                      ),
-                      Text(
-                        'Saathi',
-                        style: GoogleFonts.amita(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                          color: COLOR_ORANGE,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 50),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TextFormField(
-                          validator: (val) => _validateEmail(val),
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Email',
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.grey[300],
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/logo.png',
+                      width: 200,
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TextFormField(
-                          validator: (val) => _validatePassword(val),
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Password',
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Soul',
+                          style: GoogleFonts.amita(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                            color: COLOR_BLACK,
                           ),
-                          style: TextStyle(fontSize: 15),
                         ),
-                      ),
+                        Text(
+                          'Saathi',
+                          style: GoogleFonts.amita(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                            color: COLOR_ORANGE,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  // SizedBox(height: 5),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.end,
-                  //     children: [
-                  //       GestureDetector(
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //               builder: (context) {
-                  //                 return ForgotPasswordScreen();
-                  //               },
-                  //             ),
-                  //           );
-                  //         },
-                  //         child: Text(
-                  //           'Forgot Password',
-                  //           style: TextStyle(
-                  //             color: Colors.blue,
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: MaterialButton(
-                        onPressed: signIn,
-                        minWidth: double.infinity,
-                        height: 60,
-                        color: COLOR_ORANGE,
-                        child: (_auth?.isLoading ?? false)
-                            ? CircularProgressIndicator(color: Colors.white)
-                            : Text(
-                                "Sign In",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                    SizedBox(height: 50),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: TextFormField(
+                            validator: (val) => _validateEmail(val),
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Email',
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
                               ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Not a member? ',
-                        style: TextStyle(
-                          color: COLOR_BLACK,
-                          fontWeight: FontWeight.bold,
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return RegisterScreen();
-                              },
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: TextFormField(
+                            validator: (val) => _validatePassword(val),
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Password',
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          );
-                        },
-                        child: Text(
-                          'Register Now',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // SizedBox(height: 5),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    //     children: [
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //               builder: (context) {
+                    //                 return ForgotPasswordScreen();
+                    //               },
+                    //             ),
+                    //           );
+                    //         },
+                    //         child: Text(
+                    //           'Forgot Password',
+                    //           style: TextStyle(
+                    //             color: Colors.blue,
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: MaterialButton(
+                          onPressed: signIn,
+                          minWidth: double.infinity,
+                          height: 60,
+                          color: COLOR_ORANGE,
+                          child: (_auth?.isLoading ?? false)
+                              ? CircularProgressIndicator(color: Colors.white)
+                              : Text(
+                                  "Sign In",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Not a member? ',
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: COLOR_BLACK,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return RegisterScreen();
+                                },
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Register Now',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
