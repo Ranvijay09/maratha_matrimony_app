@@ -33,6 +33,7 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
   XFile? image;
   File? selectedFile;
   final _docController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,17 +76,25 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
                       SizedBox(
                         height: 50,
                       ),
-                      ProfilePic(
-                          imagePath:
-                              image != null ? image!.path : _user!.photoURL!,
+                       ProfilePic(
+                          imagePath: image != null
+                              ? UserModel.defaultPhotoUrl
+                              : _user!.photoURL!,
                           onBtnClick: () async {
                             var img = await ImagePicker()
                                 .pickImage(source: ImageSource.gallery);
 
-                            print(img?.path);
                             setState(() {
                               image = img;
                             });
+                            if (image != null) {
+                              if (await UserModel.updateProfilePhoto(
+                                  File(image!.path), _user!)) {
+                                setState(() {
+                                  image = null;
+                                });
+                              }
+                            }
                           }),
                       SizedBox(height: 50),
                       Padding(
@@ -144,7 +153,7 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
                   minWidth: double.infinity,
                   height: 60,
                   color: COLOR_ORANGE,
-                  child: (_auth?.isLoading ?? false)
+                  child: isLoading
                       ? CircularProgressIndicator(color: Colors.white)
                       : Text(
                           "Continue",
@@ -164,18 +173,20 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
   }
 
   saveProfilePicAndDocumentToDB() async {
+    isLoading = true;
     if (image != null) {
-      await UserModel.updateProfilePhoto(File(image!.path), _user!);
       if (selectedFile != null) {
         await UserModel.updateVerficationDoc(selectedFile!, _user!);
+        isLoading = false;
       }
+      _auth?.signOut();
+      Navigator.of(context)
+          .push(
+            MaterialPageRoute(
+              builder: (context) => ScreenManager(),
+            ),
+          )
+          .catchError((error) => print("something is wrong. $error"));
     }
-    Navigator.of(context)
-        .push(
-          MaterialPageRoute(
-            builder: (context) => ScreenManager(),
-          ),
-        )
-        .catchError((error) => print("something is wrong. $error"));
   }
 }

@@ -38,7 +38,9 @@ class _AccountScreenState extends State<AccountScreen> {
         child: Column(
           children: [
             ProfilePic(
-                imagePath: image != null ? image!.path : _user!.photoURL!,
+                imagePath: image != null
+                    ? UserModel.defaultPhotoUrl
+                    : _user!.photoURL!,
                 onBtnClick: () async {
                   var img = await ImagePicker()
                       .pickImage(source: ImageSource.gallery);
@@ -47,7 +49,12 @@ class _AccountScreenState extends State<AccountScreen> {
                     image = img;
                   });
                   if (image != null) {
-                    UserModel.updateProfilePhoto(File(image!.path), _user!);
+                    if (await UserModel.updateProfilePhoto(
+                        File(image!.path), _user!)) {
+                      setState(() {
+                        image = null;
+                      });
+                    }
                   }
                 }),
             SizedBox(height: 20),
