@@ -76,24 +76,23 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
                       SizedBox(
                         height: 50,
                       ),
-                       ProfilePic(
-                          imagePath: image != null
-                              ? UserModel.defaultPhotoUrl
-                              : _user!.photoURL!,
+                      ProfilePic(
+                          imagePath:
+                              image != null ? image!.path : _user!.photoURL!,
                           onBtnClick: () async {
                             var img = await ImagePicker()
                                 .pickImage(source: ImageSource.gallery);
 
+                            print(img?.path);
                             setState(() {
                               image = img;
                             });
                             if (image != null) {
-                              if (await UserModel.updateProfilePhoto(
-                                  File(image!.path), _user!)) {
-                                setState(() {
-                                  image = null;
-                                });
-                              }
+                              UserModel.updateProfilePhoto(
+                                      File(image!.path), _user!)
+                                  .then((value) => setState(() {
+                                        image = null;
+                                      }));
                             }
                           }),
                       SizedBox(height: 50),

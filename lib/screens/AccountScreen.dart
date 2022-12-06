@@ -49,12 +49,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     image = img;
                   });
                   if (image != null) {
-                    if (await UserModel.updateProfilePhoto(
-                        File(image!.path), _user!)) {
-                      setState(() {
-                        image = null;
-                      });
-                    }
+                    UserModel.updateProfilePhoto(File(image!.path), _user!)
+                        .then((value) => image = null);
                   }
                 }),
             SizedBox(height: 20),

@@ -729,7 +729,7 @@ class _SocioReligiousAttributesScreenState
   Future _getDistrictsData(int stateId) async {
     if (stateId <= 0) return [];
     var response = await rootBundle.loadString("assets/json/districts.json");
-    final data = await json.decode(response);
-    return (data["districts"][stateId - 1]["districts"]);
+    final data1 = await json.decode(response);
+    return (data1["districts"][stateId - 1]["districts"]);
   }
 }
