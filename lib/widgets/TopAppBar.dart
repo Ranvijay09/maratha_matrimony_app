@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maratha_matrimony_app/screens/FilterScreen.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 
 class TopAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -42,7 +43,16 @@ class TopAppBar extends StatelessWidget with PreferredSizeWidget {
         Visibility(
           visible: tab == 0,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return FilterScreen();
+                  },
+                ),
+              );
+            },
             icon: const Icon(
               FontAwesomeIcons.sliders,
               color: COLOR_ORANGE,

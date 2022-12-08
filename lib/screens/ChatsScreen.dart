@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:maratha_matrimony_app/components/FillOutlineButton.dart';
+import 'package:maratha_matrimony_app/widgets/FillOutlineButton.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
 import 'package:maratha_matrimony_app/models/ChatModel.dart';
 import 'package:maratha_matrimony_app/models/Database.dart';
@@ -38,6 +38,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
   int _selectedChatsScreenTab = 1;
   List<String> _pendingRequestsIds = [];
   List<String> _sentRequestsIds = [];
+
   @override
   void initState() {
     _scrollCtl.addListener(() {
@@ -160,8 +161,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                       read = oneChatSnap.data![0].read ||
                                           oneChatSnap.data![0].uid ==
                                               _user!.uid;
-                                      String latestMsg =
-                                          oneChatSnap.data![0].message;
+                                      latestMsg = oneChatSnap.data![0].message;
                                     }
                                     return FutureBuilder<MyUser>(
                                         future:
@@ -174,14 +174,23 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                               user: curUser,
                                               lastMessage: latestMsg,
                                               read: read,
-                                              press: () {},
-                                              //   press: () => Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           const MessagesScreen(),
-                                              //     ),
-                                              //   ),
+                                              press: () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MessagesScreen(
+                                                    user: _user!,
+                                                    otherUid: curUser.uid,
+                                                    otherName:
+                                                        curUser.firstName +
+                                                            ' ' +
+                                                            curUser.lastName,
+                                                    otherPhotoUrl:
+                                                        curUser.photoUrl,
+                                                    otherEmail: curUser.email,
+                                                  ),
+                                                ),
+                                              ),
                                             );
                                           } else {
                                             return ListTile(

@@ -87,6 +87,14 @@ class Database {
         "varificationDocUrl": '',
         "isVerified": false,
       });
+      await db.collection("filters").doc(user.uid).set({
+        "ageMin": 21,
+        "ageMax": 50,
+        "maritalStatus": 'Doesn\'t Matter',
+        "highestEducation": 'Doesn\'t Matter',
+        "occupation": 'Doesn\'t Matter',
+        "annualIncome": 'Doesn\'t Matter',
+      });
       return true;
     }
     return false;

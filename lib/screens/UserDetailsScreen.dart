@@ -12,9 +12,9 @@ import 'package:provider/provider.dart';
 import '../models/MyUser.dart';
 
 class UserDetailsScreen extends StatefulWidget {
-  final MyUser user;
+  final String userUid;
 
-  const UserDetailsScreen({super.key, required this.user});
+  const UserDetailsScreen({super.key, required this.userUid});
 
   @override
   State<UserDetailsScreen> createState() => _UserDetailsScreenState();
@@ -61,11 +61,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   if (snapshot.hasData) {
                     List<String> _bookmarkIds = snapshot.data!;
 
-                    isBookmarked = _bookmarkIds.contains(widget.user.uid);
+                    isBookmarked = _bookmarkIds.contains(widget.userUid);
 
                     return FutureBuilder<MyUser>(
                         future:
-                            UserModel.getParticularUserDetails(widget.user.uid),
+                            UserModel.getParticularUserDetails(widget.userUid),
                         builder: (context, snap) {
                           if (snap.hasData) {
                             MyUser curUser = snap.data!;
@@ -130,6 +130,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   toggleBookmark() async {
     if (await Database().checkIfUserIsAddedToBookmarks(
-        uid1: _user!.uid, uid2: widget.user.uid)) isBookmarked = !isBookmarked;
+        uid1: _user!.uid, uid2: widget.userUid)) isBookmarked = !isBookmarked;
   }
 }

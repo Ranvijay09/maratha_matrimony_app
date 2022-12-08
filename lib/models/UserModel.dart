@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:maratha_matrimony_app/models/MyFilter.dart';
 import 'package:maratha_matrimony_app/models/database.dart';
 import 'package:maratha_matrimony_app/models/MyUser.dart';
 
@@ -244,6 +245,22 @@ class UserModel {
     } else {
       return [];
     }
+  }
+
+  static Future<MyFilter> getMyFilters(String uid) async {
+    return _convertFilterSnapshot(
+        await Database().db.collection("filters").doc(uid).get());
+  }
+
+  static MyFilter _convertFilterSnapshot(DocumentSnapshot doc) {
+    return MyFilter(
+      ageMax: doc["ageMax"],
+      ageMin: doc["ageMin"],
+      maritalStatus: doc["maritalStatus"],
+      highestEducation: doc["highestEducation"],
+      occupation: doc["occupation"],
+      annualIncome: doc["annualIncome"],
+    );
   }
 
   static List<String> _convertBookmarkSnapshot(QuerySnapshot snapshot) {

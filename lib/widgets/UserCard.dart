@@ -212,7 +212,7 @@ class UserCard extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return UserDetailsScreen(user: user);
+                            return UserDetailsScreen(userUid: user.uid);
                           },
                         ),
                       );
