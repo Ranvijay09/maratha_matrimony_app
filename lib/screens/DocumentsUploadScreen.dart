@@ -13,7 +13,7 @@ import 'package:maratha_matrimony_app/models/Database.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
 import 'package:maratha_matrimony_app/screens/BasicInfoScreen.dart';
 import 'package:maratha_matrimony_app/screens/HomeScreen.dart';
-import 'package:maratha_matrimony_app/screens/ScreenManager.dart';
+import 'package:maratha_matrimony_app/screens/AuthManager.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maratha_matrimony_app/widgets/ProfilePic.dart';
@@ -189,7 +189,7 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
         Navigator.of(context)
             .push(
               MaterialPageRoute(
-                builder: (context) => ScreenManager(),
+                builder: (context) => AuthManager(),
               ),
             )
             .catchError((error) => print("something is wrong. $error"));

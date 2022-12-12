@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
-import 'package:maratha_matrimony_app/screens/BottomNavController.dart';
+import 'package:maratha_matrimony_app/screens/ScreenManager.dart';
 import 'package:maratha_matrimony_app/screens/LoginScreen.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 import 'package:google_fonts/google_fonts.dart';

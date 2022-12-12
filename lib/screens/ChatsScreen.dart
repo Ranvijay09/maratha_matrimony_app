@@ -258,8 +258,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                         } else {
                                           return ListTile(
                                               title: LinearProgressIndicator(
-                                                  minHeight: 280,
-                                                  color: COLOR_ORANGE));
+                                            minHeight: 280,
+                                            color: COLOR_GREY.withOpacity(.4),
+                                            backgroundColor: Colors.transparent,
+                                          ));
                                         }
                                       });
                                 },
@@ -323,9 +325,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                             );
                                           } else {
                                             return ListTile(
-                                                title: LinearProgressIndicator(
-                                                    minHeight: 280,
-                                                    color: COLOR_ORANGE));
+                                              title: LinearProgressIndicator(
+                                                minHeight: 280,
+                                                color:
+                                                    COLOR_GREY.withOpacity(.4),
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                              ),
+                                            );
                                           }
                                         });
                                   },

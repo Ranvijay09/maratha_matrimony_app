@@ -7,7 +7,7 @@ import 'package:maratha_matrimony_app/screens/BasicInfoScreen.dart';
 import 'package:maratha_matrimony_app/screens/CurrentAddressScreen.dart';
 import 'package:maratha_matrimony_app/screens/DocumentsUploadScreen.dart';
 import 'package:maratha_matrimony_app/screens/PhysicalAttributesScreen.dart';
-import 'package:maratha_matrimony_app/screens/ScreenManager.dart';
+import 'package:maratha_matrimony_app/screens/AuthManager.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
 import 'package:maratha_matrimony_app/screens/SocioReligiousAttributesScreen.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           textTheme: screenWidth < 500 ? TEXT_THEME_SMALL : TEXT_THEME_DEFAULT,
           fontFamily: "Montserrat",
         ),
-        home: ScreenManager(),
+        home: AuthManager(),
       ),
     );
   }

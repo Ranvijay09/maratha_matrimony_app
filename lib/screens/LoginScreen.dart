@@ -5,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
-import 'package:maratha_matrimony_app/screens/BottomNavController.dart';
-import 'package:maratha_matrimony_app/screens/RegisterScreen.dart';
 import 'package:maratha_matrimony_app/screens/ScreenManager.dart';
+import 'package:maratha_matrimony_app/screens/RegisterScreen.dart';
+import 'package:maratha_matrimony_app/screens/AuthManager.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ScreenManager(),
+            builder: (context) => AuthManager(),
           ),
         );
       }

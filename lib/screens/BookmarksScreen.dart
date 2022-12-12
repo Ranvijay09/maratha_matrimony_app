@@ -41,7 +41,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                         child: Text(
                           "No Bookmarks yet!",
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Color.fromARGB(255, 102, 102, 102),
                             fontSize: 16,
                           ),
                         ),
@@ -59,7 +59,17 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                               if (snap.hasData) {
                                 MyUser curUser = snap.data!;
                                 return UserCard(
-                                  pressConnectBtn: () {},
+                                  connectBtncolor: Colors.red,
+                                  connectBtnText: 'Remove Bookmark',
+                                  pressConnectBtn: () async {
+                                    await Database().deleteBookmark(
+                                        userUid: _user!.uid,
+                                        bookmarkUserUid: curUser.uid);
+                                    setState(() {
+                                      _bookmarkIds = List.from(_bookmarkIds)
+                                        ..removeAt(index);
+                                    });
+                                  },
                                   user: curUser,
                                 );
                               } else {

@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
 import 'package:maratha_matrimony_app/models/Database.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
-import 'package:maratha_matrimony_app/screens/BottomNavController.dart';
+import 'package:maratha_matrimony_app/screens/ScreenManager.dart';
 import 'package:maratha_matrimony_app/screens/HomeScreen.dart';
 import 'package:maratha_matrimony_app/screens/PhysicalAttributesScreen.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';

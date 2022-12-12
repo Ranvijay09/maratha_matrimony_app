@@ -10,9 +10,9 @@ import 'package:maratha_matrimony_app/models/Auth.dart';
 import 'package:maratha_matrimony_app/models/MyFilter.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
 import 'package:maratha_matrimony_app/screens/BasicInfoScreen.dart';
-import 'package:maratha_matrimony_app/screens/BottomNavController.dart';
-import 'package:maratha_matrimony_app/screens/HomeScreen.dart';
 import 'package:maratha_matrimony_app/screens/ScreenManager.dart';
+import 'package:maratha_matrimony_app/screens/HomeScreen.dart';
+import 'package:maratha_matrimony_app/screens/AuthManager.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -367,7 +367,13 @@ class _FilterScreenState extends State<FilterScreen> {
                 }),
             ClipRRect(
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => ScreenManager(),
+                    ),
+                  );
+                },
                 minWidth: double.infinity,
                 height: 60,
                 color: COLOR_ORANGE,
