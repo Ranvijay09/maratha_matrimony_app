@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:maratha_matrimony_app/widgets/ChatCardSkeleton.dart';
 import 'package:maratha_matrimony_app/widgets/FillOutlineButton.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
 import 'package:maratha_matrimony_app/models/ChatModel.dart';
@@ -193,8 +194,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                             );
                                           } else {
                                             return ListTile(
-                                                title: LinearProgressIndicator(
-                                                    color: COLOR_ORANGE));
+                                                title: ChatCardSkeleton());
                                           }
                                         });
                                   });
