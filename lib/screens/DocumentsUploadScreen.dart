@@ -153,7 +153,9 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
                 ),
                 ClipRRect(
                   child: MaterialButton(
-                    onPressed: saveProfilePicAndDocumentToDB,
+                    onPressed: isLoading
+                        ? null
+                        : () => saveProfilePicAndDocumentToDB(),
                     minWidth: double.infinity,
                     height: 60,
                     color: COLOR_ORANGE,
