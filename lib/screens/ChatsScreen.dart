@@ -36,8 +36,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
   List<String> _chatUsersUid = [];
   int _selectedChatsScreenTab = 1;
-  List<String> _pendingRequestsIds = [];
-  List<String> _sentRequestsIds = [];
 
   @override
   void initState() {
@@ -213,7 +211,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         stream: UserModel.getPendingRequests(_user!.uid),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            _pendingRequestsIds = snapshot.data!;
+                            List<String> _pendingRequestsIds = snapshot.data!;
 
                             if (_pendingRequestsIds.length == 0) {
                               return Expanded(
@@ -279,7 +277,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         stream: UserModel.getSentRequests(_user!.uid),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            _sentRequestsIds = snapshot.data!;
+                            List<String> _sentRequestsIds = snapshot.data!;
 
                             if (_sentRequestsIds.length == 0) {
                               return Expanded(
