@@ -103,7 +103,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
                                     child: Container(
                                       height: 20,
                                       width: 20,
-                                      child: CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(
+                                          color: COLOR_ORANGE),
                                     ),
                                   );
                           }
@@ -196,7 +197,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     }
                   }
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(color: COLOR_ORANGE),
                   );
                 },
               ),

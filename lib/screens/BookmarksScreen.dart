@@ -73,7 +73,9 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                   );
                 } else {
                   return Expanded(
-                      child: Center(child: CircularProgressIndicator()));
+                      child: Center(
+                          child:
+                              CircularProgressIndicator(color: COLOR_ORANGE)));
                 }
               }),
         ],

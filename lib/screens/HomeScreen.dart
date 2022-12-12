@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maratha_matrimony_app/models/Database.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
+import 'package:maratha_matrimony_app/utils/Constants.dart';
 import 'package:maratha_matrimony_app/widgets/UserCard.dart';
 import 'package:maratha_matrimony_app/models/MyUser.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   User? _user;
   MyUser? _loggedInUser;
   bool loading = false;
+  List<MyUser> _allUsers = [];
 
   @override
   void didChangeDependencies() async {
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: CircularProgressIndicator(color: COLOR_ORANGE))
         : Container(
             color: Colors.grey[200],
             child: Column(
@@ -42,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   future: UserModel.getAllUsersForFeed(uid: _user!.uid),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      List<MyUser> _allUsers = snapshot.data!;
+                      _allUsers = snapshot.data!;
                       if (_allUsers.isEmpty) {
                         return Expanded(
                           child: Center(
@@ -67,7 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 await Database().sendConnectReq(
                                     userUid: _user!.uid,
                                     otherUserUid: _allUsers[index].uid);
-                                _allUsers.remove(_allUsers[index]);
+                                setState(() {
+                                  _allUsers = List.from(_allUsers)
+                                    ..removeAt(index);
+                                });
                               },
                             );
                           },
@@ -76,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     } else {
                       return Expanded(
                         child: Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(color: COLOR_ORANGE),
                         ),
                       );
                     }

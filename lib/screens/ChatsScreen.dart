@@ -141,7 +141,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                           padding: EdgeInsets.only(top: 20),
                                           height: 20,
                                           width: 20,
-                                          child: CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(
+                                              color: COLOR_ORANGE),
                                         ),
                                       );
                               }
@@ -194,8 +195,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                             );
                                           } else {
                                             return ListTile(
-                                              title: LinearProgressIndicator(),
-                                            );
+                                                title: LinearProgressIndicator(
+                                                    color: COLOR_ORANGE));
                                           }
                                         });
                                   });
@@ -203,7 +204,9 @@ class _ChatsScreenState extends State<ChatsScreen> {
                           ),
                         );
                       }
-                      return Center(child: CircularProgressIndicator());
+                      return Center(
+                          child:
+                              CircularProgressIndicator(color: COLOR_ORANGE));
                     })
                 : (_selectedChatsScreenTab == 2)
                     ? StreamBuilder<List<String>>(
@@ -246,15 +249,19 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                                   otherUserUid:
                                                       _pendingRequestsIds[
                                                           index]);
-                                              _pendingRequestsIds.remove(
-                                                  _pendingRequestsIds[index]);
+                                              setState(() {
+                                                _pendingRequestsIds = List.from(
+                                                    _pendingRequestsIds)
+                                                  ..removeAt(index);
+                                              });
                                             },
                                             user: curUser,
                                           );
                                         } else {
                                           return ListTile(
-                                            title: LinearProgressIndicator(),
-                                          );
+                                              title: LinearProgressIndicator(
+                                                  minHeight: 280,
+                                                  color: COLOR_ORANGE));
                                         }
                                       });
                                 },
@@ -262,8 +269,9 @@ class _ChatsScreenState extends State<ChatsScreen> {
                             );
                           } else {
                             return Expanded(
-                                child:
-                                    Center(child: CircularProgressIndicator()));
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                        color: COLOR_ORANGE)));
                           }
                         },
                       )
@@ -285,44 +293,52 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                   ),
                                 ),
                               );
+                            } else {
+                              return Expanded(
+                                child: ListView.builder(
+                                  itemCount: _sentRequestsIds.length,
+                                  itemBuilder: (context, index) {
+                                    return FutureBuilder<MyUser>(
+                                        future:
+                                            UserModel.getParticularUserDetails(
+                                                _sentRequestsIds[index]),
+                                        builder: (context, snap) {
+                                          if (snap.hasData) {
+                                            MyUser curUser = snap.data!;
+                                            return UserCard(
+                                              connectBtnText: 'Cancel Request',
+                                              connectBtncolor: Colors.red,
+                                              pressConnectBtn: () async {
+                                                await Database()
+                                                    .cancelConnectReq(
+                                                        userUid: _user!.uid,
+                                                        otherUserUid:
+                                                            _sentRequestsIds[
+                                                                index]);
+                                                setState(() {
+                                                  _sentRequestsIds = List.from(
+                                                      _sentRequestsIds)
+                                                    ..removeAt(index);
+                                                });
+                                              },
+                                              user: curUser,
+                                            );
+                                          } else {
+                                            return ListTile(
+                                                title: LinearProgressIndicator(
+                                                    minHeight: 280,
+                                                    color: COLOR_ORANGE));
+                                          }
+                                        });
+                                  },
+                                ),
+                              );
                             }
-                            return Expanded(
-                              child: ListView.builder(
-                                itemCount: _sentRequestsIds.length,
-                                itemBuilder: (context, index) {
-                                  return FutureBuilder<MyUser>(
-                                      future:
-                                          UserModel.getParticularUserDetails(
-                                              _sentRequestsIds[index]),
-                                      builder: (context, snap) {
-                                        if (snap.hasData) {
-                                          MyUser curUser = snap.data!;
-                                          return UserCard(
-                                            connectBtnText: 'Cancel Request',
-                                            connectBtncolor: Colors.red,
-                                            pressConnectBtn: () async {
-                                              await Database().cancelConnectReq(
-                                                  userUid: _user!.uid,
-                                                  otherUserUid:
-                                                      _sentRequestsIds[index]);
-                                              _sentRequestsIds.remove(
-                                                  _sentRequestsIds[index]);
-                                            },
-                                            user: curUser,
-                                          );
-                                        } else {
-                                          return ListTile(
-                                            title: LinearProgressIndicator(),
-                                          );
-                                        }
-                                      });
-                                },
-                              ),
-                            );
                           } else {
                             return Expanded(
-                                child:
-                                    Center(child: CircularProgressIndicator()));
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                        color: COLOR_ORANGE)));
                           }
                         },
                       ),

@@ -360,7 +360,9 @@ class _FilterScreenState extends State<FilterScreen> {
                     );
                   } else {
                     return Expanded(
-                        child: Center(child: CircularProgressIndicator()));
+                        child: Center(
+                            child: CircularProgressIndicator(
+                                color: COLOR_ORANGE)));
                   }
                 }),
             ClipRRect(

@@ -219,20 +219,41 @@ class UserModel {
   static Future<List<MyUser>> getAllUsersForFeed({required String uid}) async {
     bool success = true;
     QuerySnapshot? snapshot;
-    MyUser _loggedInUser = await UserModel.getParticularUserDetails(uid);
+    MyFilter _filters = await UserModel.getMyFilters(uid);
     Stream<List<String>> _bookmarkIds = UserModel.getBookmarks(uid);
-    List<Object> allBookmarks = [uid];
+    Stream<List<String>> _sentReqIds = UserModel.getSentRequests(uid);
+    Stream<List<String>> _pendingReqIds = UserModel.getPendingRequests(uid);
+    Stream<List<String>> _chatIds = UserModel.getChats(uid);
     List<MyUser> snap = [];
+    List<Object> allBookmarks = [uid];
     _bookmarkIds.listen((listOfBookmarks) {
       for (var bookmark in listOfBookmarks) {
         allBookmarks.add(bookmark);
+      }
+    });
+    List<Object> allSentRequests = [uid];
+    _sentReqIds.listen((listOfSentReqs) {
+      for (var req in listOfSentReqs) {
+        allSentRequests.add(req);
+      }
+    });
+    List<Object> allPendingRequests = [uid];
+    _pendingReqIds.listen((listOfPendingReqs) {
+      for (var req in listOfPendingReqs) {
+        allPendingRequests.add(req);
+      }
+    });
+    List<Object> allChats = [uid];
+    _chatIds.listen((listOfChats) {
+      for (var chat in listOfChats) {
+        allChats.add(chat);
       }
     });
     try {
       snapshot = await Database()
           .db
           .collection("users")
-          .where('gender', isNotEqualTo: _loggedInUser.gender)
+          .where('gender', isEqualTo: _filters.gender)
           .get();
     } catch (e) {
       print(e);
@@ -240,7 +261,17 @@ class UserModel {
     }
     if (success) {
       List<MyUser> allUsers = _convertSnapshots(snapshot!);
-      allUsers.forEach((s) => {if (!allBookmarks.contains(s.uid)) snap.add(s)});
+      allUsers.forEach((s) => {
+            if (!allBookmarks.contains(s.uid) &&
+                !allSentRequests.contains(s.uid) &&
+                !allPendingRequests.contains(s.uid) &&
+                !allChats.contains(s.uid) &&
+                _filters.annualIncome.contains(s.annualIncome) &&
+                _filters.occupation.contains(s.occupation) &&
+                _filters.maritalStatus.contains(s.maritalStatus) &&
+                _filters.highestEducation.contains(s.highestEducation))
+              {snap.add(s)}
+          });
       return snap;
     } else {
       return [];
@@ -276,6 +307,16 @@ class UserModel {
         .collection("users")
         .doc(uid)
         .collection("bookmarks")
+        .snapshots()
+        .map(_convertBookmarkSnapshot);
+  }
+
+  static Stream<List<String>> getChats(String uid) {
+    return Database()
+        .db
+        .collection("users")
+        .doc(uid)
+        .collection("chats")
         .snapshots()
         .map(_convertBookmarkSnapshot);
   }

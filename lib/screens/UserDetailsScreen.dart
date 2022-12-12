@@ -891,7 +891,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         });
                   } else {
                     return Expanded(
-                        child: Center(child: CircularProgressIndicator()));
+                        child: Center(
+                            child: CircularProgressIndicator(
+                                color: COLOR_ORANGE)));
                   }
                 }),
           ],
