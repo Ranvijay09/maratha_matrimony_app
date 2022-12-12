@@ -90,10 +90,31 @@ class Database {
       await db.collection("filters").doc(user.uid).set({
         "ageMin": 21,
         "ageMax": 50,
-        "maritalStatus": 'Doesn\'t Matter',
-        "highestEducation": 'Doesn\'t Matter',
-        "occupation": 'Doesn\'t Matter',
-        "annualIncome": 'Doesn\'t Matter',
+        "gender": '',
+        "maritalStatus": [
+          'Unmarried',
+          'Widow/Widower',
+          'Divorcee',
+          'Separated'
+        ],
+        "highestEducation": [
+          'PhD',
+          'Post Graduation',
+          'Graduation',
+          'Engg. Graduation',
+          'Diploma',
+          'HSC(12th)',
+          'SSC(10th)'
+        ],
+        "occupation": ['Service', 'Business', 'Service & Business'],
+        "annualIncome": [
+          'More than 50Lacs',
+          '25-50Lacs',
+          '10-25Lacs',
+          '5-10Lacs',
+          '1-5Lacs',
+          'Less than 1Lacs'
+        ],
       });
       return true;
     }
@@ -130,6 +151,13 @@ class Database {
       "educationStream": educationStream,
       "occupation": occupation,
       "annualIncome": annualIncome,
+    }).onError((error, stackTrace) {
+      print(error.toString());
+      isSuccess = false;
+    });
+    isSuccess = true;
+    await db.collection("filters").doc(uid).update({
+      "gender": gender.compareTo('Male') >= 0 ? 'Female' : 'Male',
     }).onError((error, stackTrace) {
       print(error.toString());
       isSuccess = false;

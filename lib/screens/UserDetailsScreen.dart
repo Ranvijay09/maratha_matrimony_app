@@ -23,6 +23,8 @@ class UserDetailsScreen extends StatefulWidget {
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   bool isBookmarked = true;
   User? _user;
+
+  
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

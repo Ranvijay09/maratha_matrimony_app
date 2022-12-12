@@ -57,32 +57,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }
 
-                      return StreamBuilder<List<String>>(
-                          stream: UserModel.getBookmarks(_user!.uid),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              List<String> _bookmarkIds = snapshot.data!;
-
-                              return Expanded(
-                                child: ListView.builder(
-                                  itemCount: _allUsers.length,
-                                  itemBuilder: (context, index) {
-                                    return UserCard(
-                                      user: _allUsers[index],
-                                      pressConnectBtn: () async {
-                                        await Database().sendConnectReq(
-                                            userUid: _user!.uid,
-                                            otherUserUid: _allUsers[index].uid);
-                                        _allUsers.remove(_allUsers[index]);
-                                      },
-                                    );
-                                  },
-                                ),
-                              );
-                            } else {
-                              return SizedBox();
-                            }
-                          });
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: _allUsers.length,
+                          itemBuilder: (context, index) {
+                            return UserCard(
+                              user: _allUsers[index],
+                              pressConnectBtn: () async {
+                                await Database().sendConnectReq(
+                                    userUid: _user!.uid,
+                                    otherUserUid: _allUsers[index].uid);
+                                _allUsers.remove(_allUsers[index]);
+                              },
+                            );
+                          },
+                        ),
+                      );
                     } else {
                       return Expanded(
                         child: Center(

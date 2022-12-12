@@ -41,7 +41,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                         child: Text(
                           "No Bookmarks yet!",
                           style: TextStyle(
-                            color: Color.fromARGB(255, 102, 102, 102),
+                            color: Colors.grey,
                             fontSize: 16,
                           ),
                         ),

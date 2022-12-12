@@ -79,13 +79,12 @@ class _DocumentsUploadScreenState extends State<DocumentsUploadScreen> {
                           height: 50,
                         ),
                         ProfilePic(
-                            imagePath:
-                                image != null ? image!.path : _user!.photoURL!,
+                            imagePath: image != null
+                                ? UserModel.defaultPhotoUrl
+                                : _user!.photoURL!,
                             onBtnClick: () async {
                               var img = await ImagePicker()
                                   .pickImage(source: ImageSource.gallery);
-
-                              print(img?.path);
                               setState(() {
                                 image = img;
                               });

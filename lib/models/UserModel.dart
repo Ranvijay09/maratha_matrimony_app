@@ -256,10 +256,11 @@ class UserModel {
     return MyFilter(
       ageMax: doc["ageMax"],
       ageMin: doc["ageMin"],
-      maritalStatus: doc["maritalStatus"],
-      highestEducation: doc["highestEducation"],
-      occupation: doc["occupation"],
-      annualIncome: doc["annualIncome"],
+      gender: doc["gender"],
+      maritalStatus: List.from(doc["maritalStatus"]),
+      highestEducation: List.from(doc["highestEducation"]),
+      occupation: List.from(doc["occupation"]),
+      annualIncome: List.from(doc["annualIncome"]),
     );
   }
 
