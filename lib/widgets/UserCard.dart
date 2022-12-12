@@ -67,6 +67,7 @@ class UserCard extends StatelessWidget {
                         height: 10,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             FontAwesomeIcons.cakeCandles,
@@ -90,6 +91,7 @@ class UserCard extends StatelessWidget {
                         height: 8,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             FontAwesomeIcons.locationPin,
@@ -113,6 +115,7 @@ class UserCard extends StatelessWidget {
                         height: 8,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             FontAwesomeIcons.graduationCap,
@@ -136,6 +139,7 @@ class UserCard extends StatelessWidget {
                         height: 8,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             FontAwesomeIcons.bowlFood,
@@ -159,6 +163,7 @@ class UserCard extends StatelessWidget {
                         height: 8,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             FontAwesomeIcons.om,
@@ -182,6 +187,7 @@ class UserCard extends StatelessWidget {
                         height: 8,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             FontAwesomeIcons.ring,

@@ -11,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
+import 'package:maratha_matrimony_app/screens/UserDetailsScreen.dart';
 import 'package:maratha_matrimony_app/widgets/ProfileMenu.dart';
 import 'package:maratha_matrimony_app/widgets/ProfilePic.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +60,19 @@ class _AccountScreenState extends State<AccountScreen> {
             ProfileMenu(
               text: "My Profile Info",
               icon: FontAwesomeIcons.solidUser,
-              press: () => {},
+              press: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return UserDetailsScreen(
+                        userUid: _user!.uid,
+                        showBookmarkIcon: false,
+                      );
+                    },
+                  ),
+                )
+              },
             ),
             ProfileMenu(
               text: "About Us",
