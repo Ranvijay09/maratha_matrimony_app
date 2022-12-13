@@ -97,8 +97,8 @@ class _FilterScreenState extends State<FilterScreen> {
                             SizedBox(height: 5),
                             RangeSlider(
                               activeColor: COLOR_ORANGE,
-                              values: RangeValues(
-                                  myfilters!.ageMin, myfilters!.ageMax),
+                              values: RangeValues(myfilters!.ageMin.toDouble(),
+                                  myfilters!.ageMax.toDouble()),
                               min: 21,
                               max: 50,
                               divisions: 30,
@@ -108,10 +108,8 @@ class _FilterScreenState extends State<FilterScreen> {
                               ),
                               onChanged: (RangeValues values) {
                                 setState(() {
-                                  myfilters!.ageMin =
-                                      values.start.round() as double;
-                                  myfilters!.ageMax =
-                                      values.end.round() as double;
+                                  myfilters!.ageMin = values.start.round();
+                                  myfilters!.ageMax = values.end.round();
                                 });
                               },
                             ),

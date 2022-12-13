@@ -6,7 +6,7 @@ import 'package:maratha_matrimony_app/screens/FilterScreen.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 
 class TopAppBar extends StatelessWidget with PreferredSizeWidget {
-  final int? tab;
+  final num? tab;
   final String userUid;
   const TopAppBar({Key? key, required this.tab, required this.userUid})
       : super(key: key);
