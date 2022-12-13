@@ -70,8 +70,6 @@ class AuthService with ChangeNotifier {
         );
       }
       setLoading(false);
-      print("LAST");
-      print(userCredential.user);
       return userCredential.user;
     } on SocketException {
       setLoading(false);

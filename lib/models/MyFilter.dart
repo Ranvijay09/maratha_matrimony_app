@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyFilter {
-  final double ageMin;
-  final double ageMax;
-  final String gender;
-  final List<String> maritalStatus;
-  final List<String> highestEducation;
-  final List<String> occupation;
-  final List<String> annualIncome;
+  double ageMin;
+  double ageMax;
+  String gender;
+  List<String> maritalStatus;
+  List<String> highestEducation;
+  List<String> occupation;
+  List<String> annualIncome;
 
   MyFilter({
     this.ageMin = 21,

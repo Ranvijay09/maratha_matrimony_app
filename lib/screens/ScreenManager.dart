@@ -11,6 +11,7 @@ import 'package:maratha_matrimony_app/screens/ChatsScreen.dart';
 import 'package:maratha_matrimony_app/screens/AccountScreen.dart';
 import 'package:maratha_matrimony_app/utils/Constants.dart';
 import 'package:maratha_matrimony_app/widgets/TopAppBar.dart';
+import 'package:provider/provider.dart';
 
 class ScreenManager extends StatefulWidget {
   const ScreenManager({super.key});
@@ -21,6 +22,7 @@ class ScreenManager extends StatefulWidget {
 
 class _ScreenManagerState extends State<ScreenManager> {
   MyUser? loggedInUser;
+  User? _user;
   final _pages = [
     HomeScreen(),
     BookmarksScreen(),
@@ -31,13 +33,15 @@ class _ScreenManagerState extends State<ScreenManager> {
 
   @override
   Widget build(BuildContext context) {
+    _user = Provider.of<User?>(context);
+
     return WillPopScope(
       onWillPop: () async => false,
       child: SafeArea(
         child: Scaffold(
           appBar: _selectedTabIndex == 2
               ? chatAppBar()
-              : TopAppBar(tab: _selectedTabIndex),
+              : TopAppBar(tab: _selectedTabIndex, userUid: _user!.uid),
           bottomNavigationBar: Container(
             padding: const EdgeInsets.only(
               left: kDefaultPadding * 2,

@@ -2,14 +2,13 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:maratha_matrimony_app/models/MyFilter.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
 
 class Database {
   // Making this class a singleton.
   static final Database _database = Database._init();
-  Database._init() {
-    print("Database Initialised.");
-  }
+  Database._init();
 
   factory Database() {
     return _database;
@@ -22,7 +21,6 @@ class Database {
     DocumentSnapshot snapshot =
         await db.collection("users").doc(user.uid).get();
     if (!snapshot.exists) {
-      print("New User!");
       await db.collection("users").doc(user.uid).set({
         "uid": user.uid,
         "email": user.email,
@@ -366,6 +364,22 @@ class Database {
       print(e.toString());
       success = false;
     }
+    return success;
+  }
+
+  Future<bool> setFilters({
+    required String userUid,
+    required MyFilter filters,
+  }) async {
+    bool success = true;
+    await db.collection("filters").doc(userUid).update({
+      "ageMin": filters.ageMin,
+      "ageMax": filters.ageMax,
+      "occupation": filters.occupation,
+      "annualIncome": filters.annualIncome,
+      "highestEducation": filters.highestEducation,
+      "maritalStatus": filters.maritalStatus,
+    }).onError((error, stackTrace) => success = false);
     return success;
   }
 

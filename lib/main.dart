@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
           value: AuthService().user,
           initialData: null,
           catchError: (context, _) {
-            print("User null!");
             return null;
           },
         )

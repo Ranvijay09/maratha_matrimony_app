@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,7 +7,9 @@ import 'package:maratha_matrimony_app/utils/Constants.dart';
 
 class TopAppBar extends StatelessWidget with PreferredSizeWidget {
   final int? tab;
-  const TopAppBar({Key? key, required this.tab}) : super(key: key);
+  final String userUid;
+  const TopAppBar({Key? key, required this.tab, required this.userUid})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,9 @@ class TopAppBar extends StatelessWidget with PreferredSizeWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return FilterScreen();
+                    return FilterScreen(
+                      userUid: userUid,
+                    );
                   },
                 ),
               );
