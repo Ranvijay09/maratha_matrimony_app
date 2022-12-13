@@ -11,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maratha_matrimony_app/models/Auth.dart';
 import 'package:maratha_matrimony_app/models/UserModel.dart';
+import 'package:maratha_matrimony_app/screens/AuthManager.dart';
 import 'package:maratha_matrimony_app/screens/UserDetailsScreen.dart';
 import 'package:maratha_matrimony_app/widgets/ProfileMenu.dart';
 import 'package:maratha_matrimony_app/widgets/ProfilePic.dart';
@@ -87,7 +88,16 @@ class _AccountScreenState extends State<AccountScreen> {
             ProfileMenu(
               text: "Sign Out",
               icon: FontAwesomeIcons.rightFromBracket,
-              press: () => _auth!.signOut(),
+              press: () async {
+                await _auth!.signOut();
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (context) => AuthManager(),
+                      ),
+                    )
+                    .catchError((error) => print("something is wrong. $error"));
+              },
             ),
           ],
         ),
