@@ -261,17 +261,21 @@ class UserModel {
     }
     if (success) {
       List<MyUser> allUsers = _convertSnapshots(snapshot!);
-      allUsers.forEach((s) => {
-            if (!allBookmarks.contains(s.uid) &&
-                !allSentRequests.contains(s.uid) &&
-                !allPendingRequests.contains(s.uid) &&
-                !allChats.contains(s.uid) &&
-                _filters.annualIncome.contains(s.annualIncome) &&
-                _filters.occupation.contains(s.occupation) &&
-                _filters.maritalStatus.contains(s.maritalStatus) &&
-                _filters.highestEducation.contains(s.highestEducation))
-              {snap.add(s)}
-          });
+      allUsers.forEach((s) {
+        num age = s.dob.difference(DateTime.now()).inDays.abs() ~/ 365;
+        if (!allBookmarks.contains(s.uid) &&
+            !allSentRequests.contains(s.uid) &&
+            !allPendingRequests.contains(s.uid) &&
+            !allChats.contains(s.uid) &&
+            _filters.annualIncome.contains(s.annualIncome) &&
+            _filters.occupation.contains(s.occupation) &&
+            _filters.maritalStatus.contains(s.maritalStatus) &&
+            _filters.highestEducation.contains(s.highestEducation) &&
+            age >= _filters.ageMin &&
+            age <= _filters.ageMax) {
+          snap.add(s);
+        }
+      });
       return snap;
     } else {
       return [];
