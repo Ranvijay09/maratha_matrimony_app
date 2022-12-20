@@ -30,6 +30,7 @@ class _FilterScreenState extends State<FilterScreen> {
   AuthService? _auth;
   User? _user;
   final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   MyFilter? myfilters;
 
@@ -61,13 +62,16 @@ class _FilterScreenState extends State<FilterScreen> {
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              FontAwesomeIcons.chevronLeft,
-              size: 20,
+          leading: Visibility(
+            visible: !isLoading,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                FontAwesomeIcons.chevronLeft,
+                size: 20,
+              ),
             ),
           ),
           foregroundColor: COLOR_BLACK,
@@ -396,8 +400,14 @@ class _FilterScreenState extends State<FilterScreen> {
             ClipRRect(
               child: MaterialButton(
                 onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
                   await Database()
                       .setFilters(userUid: widget.userUid, filters: myfilters!);
+                  setState(() {
+                    isLoading = false;
+                  });
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => ScreenManager(),
@@ -407,14 +417,16 @@ class _FilterScreenState extends State<FilterScreen> {
                 minWidth: double.infinity,
                 height: 60,
                 color: COLOR_ORANGE,
-                child: Text(
-                  "Apply Changes",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                child: (isLoading || myfilters == null)
+                    ? CircularProgressIndicator(color: Colors.white)
+                    : Text(
+                        "Apply Changes",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
               ),
             ),
           ],
